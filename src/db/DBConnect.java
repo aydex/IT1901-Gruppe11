@@ -1,18 +1,14 @@
 package db;
 
 import java.sql.*;
-import java.text.DateFormat;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import org.joda.time.LocalDate;
-
-import com.mysql.*;
 
 public class DBConnect {
-	static String userid ="sondrehj_it1901", password = "banan11";
-	static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";	
-	static Connection con = null;
+	private static String userid ="sondrehj_it1901", password = "banan11";
+	private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";	
+	private static Connection con = null;
 	
 	public static void main(String[] args) throws Exception {
 		Connection con = getConnection();
@@ -21,9 +17,16 @@ public class DBConnect {
 			System.out.println(cabins.get(i));
 		}
 		
-		
-		//makeReservation(2, "21.10.14", "19.10.14", "email@email.email", 15, 1);
+		String string_from = "20-10-14";
+		String string_to = "25-10-14";
+		SimpleDateFormat f = new SimpleDateFormat("dd-mm-yy");
+		Date from = f.parse(string_from);
+		Date to = f.parse(string_to);
+		//makeReservation(2, new java.sql.Date(from.getTime()), new java.sql.Date(to.getTime()), "adrian.hundseth@hotmail.com", 5, 6);
 		getReservations();
+		
+		makeReport("Kakerlakker i kaffen", 7, 8);
+		getReports();
 		
 		if (con!=null) {
 			System.out.println("Got Connection, ");
@@ -63,7 +66,6 @@ public class DBConnect {
 			ResultSet rset = stmt.executeQuery(strSelect);
 			
 			System.out.println("The cabins are: ");
-			int rowCount = 0;
 			while(rset.next()) {
 				String name = rset.getString("name");
 				int size = rset.getInt("size");
@@ -77,9 +79,48 @@ public class DBConnect {
 		return cabins;
 	}
 	
-	public static void getReservations() {
+	public static Reservation getReservationById(int id) {
+		ArrayList<Reservation> reservations = getReservations();
+		for (Reservation reservation : reservations) {
+			if (reservation.getReservation_id() == id) {
+				return reservation;
+			}
+		}
+		return null;
+	}
+	
+	public static ArrayList<Report> getReports() {
 		Connection con = getConnection();
-		ArrayList<Cabin> cabins = new ArrayList<Cabin>();
+		ArrayList<Report> reports = new ArrayList<Report>();
+		try {
+			Statement stmt = con.createStatement();
+			String strSelect = "select * from report";
+			System.out.println("The SQL Query is: " + strSelect);
+			ResultSet rset = stmt.executeQuery(strSelect);
+			
+			System.out.println("The reports are:");
+			while (rset.next()) {
+				String deficiency = rset.getString("deficiency");
+				int koie_id = rset.getInt("koie_id");
+				int report_id = rset.getInt("report_id");
+				
+				for (int i = 0; i < 20; i++) {System.out.print("-");}
+				System.out.println();
+				System.out.println("Deficiency: " + deficiency);
+				System.out.println("Hytte nummer " + koie_id);
+				System.out.println("Rapport nummer " + report_id);
+				Report report = new Report(deficiency, koie_id, report_id);
+				reports.add(report);
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException: " + e.getMessage());
+		}
+		return reports;
+	}
+	
+	public static ArrayList<Reservation> getReservations() {
+		Connection con = getConnection();
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		try {
 			Statement stmt = con.createStatement();
 			String strSelect = "select * from reservation";
@@ -87,44 +128,88 @@ public class DBConnect {
 			ResultSet rset = stmt.executeQuery(strSelect);
 			
 			System.out.println("The reservations are: ");
-			int rowCount = 0;
 			while(rset.next()) {
-				int name = rset.getInt("num_persons");
+				int people = rset.getInt("num_persons");
 				Date date_to = rset.getDate("date_to");
 				Date date_from = rset.getDate("date_from");
 				String email = rset.getString("email");
 				int reservation_id = rset.getInt("reservation_id");
 				int koie_id = rset.getInt("koie_id");
-				System.out.println(name);
-				System.out.println(date_to);
-				System.out.println(date_from);
-				System.out.println(email);
-				System.out.println(reservation_id);
-				System.out.println(koie_id);
+				
+				for (int i = 0; i < 20 ; i++) {System.out.print("-");}
+				System.out.println();
+				System.out.println("Reservasjon nummer " + reservation_id);
+				System.out.println("Hytte nummer " + koie_id);
+				System.out.println("Antall personer: " + people);
+				System.out.println("Fra: " + date_to);
+				System.out.println("Til: " + date_from);
+				System.out.println("E-post: " + email);
 				//int size = rset.getInt("size");
 				//int id = rset.getInt("koie_id");
 				//Cabin cabin = new Cabin(name, size, id);
 				//cabins.add(cabin);
+				Reservation reservation = new Reservation(people, date_to, date_from, email, reservation_id, koie_id);
+				reservations.add(reservation);
 			}
+			
 		} catch (SQLException e) {
 			System.err.println("SQLException: " + e.getMessage());
 		}
-		//return cabins;
+		return reservations;
 	}
 	
-	public static void makeReservation(int num_persons, String date_to, String date_from, String email, int reservation_id, int koie_id) {
+	public static void makeReport(String deficiency, int koie_id, int report_id) throws KoieException {
 		Connection con = getConnection();
-		//Reservation res = new Reservation(num_persons, date_to, date_from, email, reservation_id, koie_id);
+		
+		ArrayList<Report> reports = getReports();
+		for (Report report : reports) {
+			if (report.getReport_id() == report_id) {
+				throw new KoieException("Report already exists");
+			}
+		}
+		
+		String query = "INSERT INTO report ("
+				+ " deficiency,"
+				+ " koie_id,"
+				+ " report_id ) VALUES ("
+				+ "?, ?, ?)";
+		
 		try {
-			Statement stmnt = con.createStatement();
-			Date to_date = new Date(Calendar.getInstance().getTime().getTime());
-			Date from_date = new Date((Calendar.getInstance().getTime().getTime()));
-			String query = "INSERT INTO reservation"
-			        + " VALUES (?, ?, ?, ?, ?, ?)"; 
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, deficiency);
+			preparedStmt.setInt(2, koie_id);
+			preparedStmt.setInt(3, report_id);
+			
+			preparedStmt.execute();
+		} catch (SQLException e) {
+			System.err.println("SQLException: " + e.getMessage());
+		}
+	}
+		
+	public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int reservation_id, int koie_id) throws KoieException{
+		Connection con = getConnection();
+		
+		ArrayList<Reservation> reservations = getReservations();
+		for (Reservation reservation : reservations) {
+			if (reservation.getReservation_id() == reservation_id) {
+				throw new KoieException("Reservation already exists");
+			}
+		}
+		
+		String query = "INSERT INTO reservation (" 
+				+ " num_persons,"
+			    + " date_to,"
+			    + " date_from,"
+			    + " email,"
+			    + " reservation_id,"
+			    + " koie_id ) VALUES ("
+			    + "?, ?, ?, ?, ?, ?)";
+
+		try {
 		    PreparedStatement preparedStmt = con.prepareStatement(query);
 		    preparedStmt.setInt 	(1, num_persons);
-		    preparedStmt.setDate 	(2, to_date);
-		    preparedStmt.setDate	(3, from_date);
+		    preparedStmt.setDate 	(2, date_to);
+		    preparedStmt.setDate	(3, date_from);
 		    preparedStmt.setString	(4, email);
 		    preparedStmt.setInt		(5, reservation_id);
 		    preparedStmt.setInt		(6, koie_id);
@@ -134,7 +219,7 @@ public class DBConnect {
 		    //stmnt.executeUpdate("INSERT INTO reservation " + "VALUES (" + num_persons + ", " + date_to + 
 						//", " + date_from + ", " + email + ", " + reservation_id + ", " + koie_id + ")");
 		} catch (SQLException e) {
-			System.err.println("SQLExceptoin: " + e.getMessage());
+			System.err.println("SQLException: " + e.getMessage());
 		}
 	}
 }
