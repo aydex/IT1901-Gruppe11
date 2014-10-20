@@ -5,6 +5,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.joda.time.*;
+
 public class DBConnect {
 	private static String userid ="sondrehj_it1901", password = "banan11";
 	private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";	
@@ -17,16 +19,22 @@ public class DBConnect {
 			System.out.println(cabins.get(i));
 		}
 		
-		String string_from = "20-10-14";
-		String string_to = "25-10-14";
-		SimpleDateFormat f = new SimpleDateFormat("dd-mm-yy");
-		Date from = f.parse(string_from);
-		Date to = f.parse(string_to);
+		//String string_from = "20-10-14";
+		//String string_to = "25-10-14";
+		//SimpleDateFormat f = new SimpleDateFormat("dd-mm-yy");
+		//Date from = f.parse(string_from);
+		//Date to = f.parse(string_to);
 		//makeReservation(2, new java.sql.Date(from.getTime()), new java.sql.Date(to.getTime()), "adrian.hundseth@hotmail.com", 5, 6);
 		getReservations();
 		
-		makeReport("Kakerlakker i kaffen", 7, 8);
+		//makeReport("Kakerlakker i kaffen", 7, 8);
 		getReports();
+		
+		ArrayList<Reservation> stats = getStats();
+		System.out.println("Reservations over the last six months:");
+		for (Reservation reservation : stats) {
+			System.out.println(reservation);
+		}
 		
 		if (con!=null) {
 			System.out.println("Got Connection, ");
@@ -55,6 +63,7 @@ public class DBConnect {
 			}
 		return con;
 	}
+	
 	
 	public static ArrayList<Cabin> getCabins() {
 		Connection con = getConnection();
@@ -118,6 +127,23 @@ public class DBConnect {
 		return reports;
 	}
 	
+	public static ArrayList<Reservation> getStats() {
+		Connection con = getConnection();
+		ArrayList<Reservation> stats = new ArrayList<Reservation>();
+		ArrayList<Reservation> reservations = getReservations();
+		DateTime currentDate = new DateTime();
+		DateTime statDate = currentDate.plus(Period.months(-6));
+		System.out.println(statDate);
+		
+		for (Reservation reservation : reservations) {
+			if ((reservation.getDate_from().monthOfYear().get() >= statDate.monthOfYear().get()) && 
+					(reservation.getDate_from().monthOfYear().get() <= currentDate.monthOfYear().get())) {
+				stats.add(reservation);
+			}
+		}
+		return stats;
+	}
+	
 	public static ArrayList<Reservation> getReservations() {
 		Connection con = getConnection();
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -130,8 +156,8 @@ public class DBConnect {
 			System.out.println("The reservations are: ");
 			while(rset.next()) {
 				int people = rset.getInt("num_persons");
-				Date date_to = rset.getDate("date_to");
-				Date date_from = rset.getDate("date_from");
+				DateTime date_to = new DateTime(rset.getDate("date_to"));
+				DateTime date_from = new DateTime(rset.getDate("date_from"));
 				String email = rset.getString("email");
 				int reservation_id = rset.getInt("reservation_id");
 				int koie_id = rset.getInt("koie_id");
