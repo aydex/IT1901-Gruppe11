@@ -1,8 +1,6 @@
 package db;
 
 import java.sql.*;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.joda.time.*;
@@ -128,7 +126,6 @@ public class DBConnect {
 	}
 	
 	public static ArrayList<Reservation> getStats() {
-		Connection con = getConnection();
 		ArrayList<Reservation> stats = new ArrayList<Reservation>();
 		ArrayList<Reservation> reservations = getReservations();
 		DateTime currentDate = new DateTime();
