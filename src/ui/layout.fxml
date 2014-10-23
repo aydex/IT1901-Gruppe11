@@ -5,87 +5,87 @@
 
 <VBox prefHeight="572.0" prefWidth="912.0" fx:controller="ui.Controller"
       xmlns:fx="http://javafx.com/fxml">
-   <children>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
-        <items>
-          <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="200.0">
-               <children>
-                  <ListView prefHeight="398.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <ScrollPane layoutX="60.0" layoutY="-2.0" prefHeight="195.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <Pane>
-                                       <children>
-                                          <ImageView>
-                                             <image>
-                                                <Image url="@map.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView layoutX="90.0" layoutY="167.0" onMouseClicked="#onCabinClicked" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@cabin.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ScrollBar layoutX="14.0" layoutY="14.0" />
-                                       </children>
-                                    </Pane>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefWidth="160.0">
-                           <children>
-                              <TableView prefHeight="195.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="Date" />
-                                  <TableColumn prefWidth="75.0" text="Monday" />
-                                    <TableColumn prefWidth="75.0" text="Tuesday" />
-                                    <TableColumn prefWidth="75.0" text="Wednesday" />
-                                    <TableColumn prefWidth="75.0" text="Thursday" />
-                                    <TableColumn prefWidth="75.0" text="Friday" />
-                                    <TableColumn prefWidth="75.0" text="Saturday" />
-                                    <TableColumn prefWidth="75.0" text="Sunday" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-      <SplitPane dividerPositions="0.33138686131386863">
-        <items>
-            <Label text="Database: " />
-            <ProgressBar maxWidth="-Infinity" minWidth="-Infinity" prefHeight="18.0" progress="0.0" />
-        </items>
-      </SplitPane>
-   </children>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
+            <items>
+                <AnchorPane id="box1" maxWidth="200.0" minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="200.0">
+                    <children>
+                        <ListView id="hytteListe" prefHeight="398.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <items>
+                                <AnchorPane id="info" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <ScrollPane layoutX="60.0" layoutY="-2.0" prefHeight="195.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <content>
+                                                <Pane>
+                                                    <children>
+                                                        <ImageView>
+                                                            <image>
+                                                                <Image url="@map.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <ImageView layoutX="90.0" layoutY="167.0" onMouseClicked="#onCabinClicked" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@cabin.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <ScrollBar layoutX="14.0" layoutY="14.0" />
+                                                    </children>
+                                                </Pane>
+                                            </content>
+                                        </ScrollPane>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefWidth="160.0">
+                                    <children>
+                                        <TableView prefHeight="195.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                                <TableColumn prefWidth="75.0" text="Date" />
+                                                <TableColumn prefWidth="75.0" text="Monday" />
+                                                <TableColumn prefWidth="75.0" text="Tuesday" />
+                                                <TableColumn prefWidth="75.0" text="Wednesday" />
+                                                <TableColumn prefWidth="75.0" text="Thursday" />
+                                                <TableColumn prefWidth="75.0" text="Friday" />
+                                                <TableColumn prefWidth="75.0" text="Saturday" />
+                                                <TableColumn prefWidth="75.0" text="Sunday" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+        <SplitPane dividerPositions="0.33138686131386863">
+            <items>
+                <Label text="Database: " />
+                <ProgressBar maxWidth="-Infinity" minWidth="-Infinity" prefHeight="18.0" progress="0.0" />
+            </items>
+        </SplitPane>
+    </children>
 </VBox>
