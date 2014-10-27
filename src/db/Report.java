@@ -1,7 +1,5 @@
 package db;
 
-import java.sql.Date;
-
 public class Report {
 	private final String deficiency;
 	private final int koie_id;
