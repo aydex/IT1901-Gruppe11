@@ -27,7 +27,7 @@ public class Main extends Application {
         root = FXMLLoader.load(getClass().getResource("layout.fxml"));
         primaryStage.setTitle("Koie");
         primaryStage.setScene(new Scene(root, 1000, 815));
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
         Controller con = new Controller();
         con.deployCabins();
