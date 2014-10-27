@@ -22,3 +22,9 @@ hs_err_pid*D
 /libs/
 libs/8
 libs/
+
+*/.idea/
+*.iml
+out/
+.idea/
+*.metadata
