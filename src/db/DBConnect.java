@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.joda.time.*;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 public class DBConnect {
 	private static String userid ="sondrehj_it1901", password = "banan11";
 	private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";	
@@ -73,15 +75,18 @@ public class DBConnect {
 			try {
 				Statement stmt = con.createStatement();
 				String strSelect = "select * from koie";
-				System.out.println("The SQL Query is: " + strSelect);
+				System.out.println("Performing SQL Query [" + strSelect + "]");
 				ResultSet rset = stmt.executeQuery(strSelect);
 				
-				System.out.println("The cabins are: ");
+				//System.out.println("The cabins are: ");
 				while(rset.next()) {
 					String name = rset.getString("name");
 					int size = rset.getInt("size");
 					int id = rset.getInt("koie_id");
-					Cabin cabin = new Cabin(name, size, id);
+					double corLat = rset.getDouble("lat");
+					double corLong = rset.getDouble("long");
+					LatLong coordinates = new LatLong(corLat, corLong);
+					Cabin cabin = new Cabin(name, size, id, coordinates);
 					cabins.add(cabin);
 				}
 			} catch (SQLException e) {
