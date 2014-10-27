@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Controller {
@@ -89,11 +90,11 @@ public class Controller {
 
                 fromCol.setMinWidth(75);
                 fromCol.setCellValueFactory(
-                        new PropertyValueFactory<Reservation, String>("date_from"));
+                        new PropertyValueFactory<Reservation, String>("date_from_formatted"));
 
                 toCol.setMinWidth(75);
                 toCol.setCellValueFactory(
-                        new PropertyValueFactory<Reservation, String>("test"));
+                        new PropertyValueFactory<Reservation, String>("date_to_formatted"));
 
                 emailCol.setMinWidth(200);
                 emailCol.setCellValueFactory(
@@ -117,15 +118,13 @@ public class Controller {
                 table.setLayoutY(140);
 
                 //Size
-                int tableWidth = 500;
-
+                int tableWidth = 450;
                 main_header.setPrefWidth(500);
                 table.setPrefWidth(tableWidth);
-
+                table.setPrefHeight(400);
 
                 //Legger til alle elementene i content.
                 content.getChildren().addAll(main_header, res_header, def_header, def_label, table);
-
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
                 v.getChildren().add(content);
