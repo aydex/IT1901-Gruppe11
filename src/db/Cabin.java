@@ -25,6 +25,6 @@ public class Cabin {
 	}
 
 	public String toString() {
-		return "Name: " + name + " " + "Size: " + size  +" " + "ID: " + id;
+		return id + ". " + name;
 	}
 }

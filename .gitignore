@@ -17,3 +17,9 @@ hs_err_pid*
 .DS_Store
 .settings
 libs/
+
+*/.idea/
+*.iml
+out/
+.idea/
+*.metadata

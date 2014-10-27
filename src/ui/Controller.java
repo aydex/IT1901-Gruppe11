@@ -9,6 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -39,14 +42,17 @@ public class Controller {
 
                 //Finner alle reservasjoner på hytta. Legger de til i ArrayListen reservations
                 ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+                ObservableList<Reservation> obsReservations = FXCollections.observableArrayList();
                 String res_string = "";
                 for (Reservation r : DBConnect.getReservations()) {
                     if (r.getKoie_id() == cabin.getId()) {
+                        obsReservations.add(r);
                         reservations.add(r);
                         res_string +=
                                 "ID: " + r.getReservation_id() + " \n" + "Email: " + r.getEmail() +
                                         "\n" + "Antall personer: " + r.getNum_persons() + "\n" + "Fra dato: " +
-                                        r.getDate_from() + "\n" + "Til dato: " + r.getDate_to() + "\n" +
+                                        r.getDate_from().toString().substring(0, 10) + "\n" + "Til dato: " +
+                                        r.getDate_to().toString().substring(0, 10) + "\n" +
                                         "------------------------" + "\n";
                     }
                 }
@@ -74,6 +80,27 @@ public class Controller {
                 Label res_label = new Label(res_string);
                 Label def_label = new Label(def_string);
 
+                //Table
+                TableView<Reservation> table = new TableView<Reservation>();
+                table.setEditable(true);
+                TableColumn idCol = new TableColumn("ID");
+                TableColumn numPersCol = new TableColumn("Persons");
+                TableColumn fromCol = new TableColumn("From");
+                TableColumn toCol = new TableColumn("To");
+                TableColumn emailCol = new TableColumn("Email");
+                //Legger til data i hver av kolonne
+                idCol.setMinWidth(100);
+                idCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("reservation_id"));
+                table.setItems(obsReservations);
+                table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
+
+                idCol.setMinWidth(100);
+                idCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("reservation_id"));
+                table.setItems(obsReservations);
+                table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
+
                 //Styles skal etterhvert legges i en egen .css-fil
                 content.setStyle("-fx-background-color: #FFF");
                 main_header.setStyle("-fx-font-size: 40px; -fx-text-alignment: center");
@@ -88,12 +115,17 @@ public class Controller {
                 res_header.setLayoutY(70);
                 def_header.setLayoutX(300);
                 def_header.setLayoutY(70);
+                table.setLayoutY(140);
 
                 //Size
+                int tableWidth = 400;
+
                 main_header.setPrefWidth(500);
+                table.setPrefWidth(tableWidth);
+
 
                 //Legger til alle elementene i content.
-                content.getChildren().addAll(main_header, res_header, def_header, res_label, def_label);
+                content.getChildren().addAll(main_header, res_header, def_header, res_label, def_label, table);
 
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
