@@ -41,19 +41,10 @@ public class Controller {
                 Cabin cabin = (Cabin) t.getSelectionModel().getSelectedItem();
 
                 //Finner alle reservasjoner på hytta. Legger de til i ArrayListen reservations
-                ArrayList<Reservation> reservations = new ArrayList<Reservation>();
                 ObservableList<Reservation> obsReservations = FXCollections.observableArrayList();
-                String res_string = "";
                 for (Reservation r : DBConnect.getReservations()) {
                     if (r.getKoie_id() == cabin.getId()) {
                         obsReservations.add(r);
-                        reservations.add(r);
-                        res_string +=
-                                "ID: " + r.getReservation_id() + " \n" + "Email: " + r.getEmail() +
-                                        "\n" + "Antall personer: " + r.getNum_persons() + "\n" + "Fra dato: " +
-                                        r.getDate_from().toString().substring(0, 10) + "\n" + "Til dato: " +
-                                        r.getDate_to().toString().substring(0, 10) + "\n" +
-                                        "------------------------" + "\n";
                     }
                 }
                 //Finner alle mangler på hytta. Legger de til i ArrayListen deficiency
@@ -77,7 +68,6 @@ public class Controller {
                 Label res_header = new Label("Reservasjoner");
                 Label def_header = new Label("Rapporter");
                 Label main_header = new Label(cabin.getName());
-                Label res_label = new Label(res_string);
                 Label def_label = new Label(def_string);
 
                 //Table
@@ -89,15 +79,26 @@ public class Controller {
                 TableColumn toCol = new TableColumn("To");
                 TableColumn emailCol = new TableColumn("Email");
                 //Legger til data i hver av kolonne
-                idCol.setMinWidth(100);
+                idCol.setMinWidth(30);
                 idCol.setCellValueFactory(
                         new PropertyValueFactory<Reservation, String>("reservation_id"));
-                table.setItems(obsReservations);
-                table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
 
-                idCol.setMinWidth(100);
-                idCol.setCellValueFactory(
-                        new PropertyValueFactory<Reservation, String>("reservation_id"));
+                numPersCol.setMinWidth(50);
+                numPersCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("num_persons"));
+
+                fromCol.setMinWidth(75);
+                fromCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("date_from"));
+
+                toCol.setMinWidth(75);
+                toCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("test"));
+
+                emailCol.setMinWidth(200);
+                emailCol.setCellValueFactory(
+                        new PropertyValueFactory<Reservation, String>("email"));
+
                 table.setItems(obsReservations);
                 table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
 
@@ -108,8 +109,6 @@ public class Controller {
                 def_header.setStyle("-fx-font-size: 30px");
 
                 //Positions
-                res_label.setLayoutY(120);
-                res_label.setLayoutX(10);
                 def_label.setLayoutY(120);
                 def_label.setLayoutX(300);
                 res_header.setLayoutY(70);
@@ -118,14 +117,14 @@ public class Controller {
                 table.setLayoutY(140);
 
                 //Size
-                int tableWidth = 400;
+                int tableWidth = 500;
 
                 main_header.setPrefWidth(500);
                 table.setPrefWidth(tableWidth);
 
 
                 //Legger til alle elementene i content.
-                content.getChildren().addAll(main_header, res_header, def_header, res_label, def_label, table);
+                content.getChildren().addAll(main_header, res_header, def_header, def_label, table);
 
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);

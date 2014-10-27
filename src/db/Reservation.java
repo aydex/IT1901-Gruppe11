@@ -10,7 +10,7 @@ public class Reservation {
 	private final String email;
 	private final int reservation_id;
 	private final int koie_id;
-	
+
 	public Reservation(int num_persons, DateTime date_to, DateTime date_from,
 			String email, int reservation_id, int koie_id) {
 		this.num_persons = num_persons;
