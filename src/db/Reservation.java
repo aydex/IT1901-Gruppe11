@@ -1,17 +1,17 @@
 package db;
 
-import java.util.Date;
+import org.joda.time.*;
 
 
 public class Reservation {
 	private final int num_persons;
-	private final Date date_to;
-	private final Date date_from;
+	private final DateTime date_to;
+	private final DateTime date_from;
 	private final String email;
 	private final int reservation_id;
 	private final int koie_id;
 	
-	public Reservation(int num_persons, Date date_to, Date date_from,
+	public Reservation(int num_persons, DateTime date_to, DateTime date_from,
 			String email, int reservation_id, int koie_id) {
 		this.num_persons = num_persons;
 		this.date_to = date_to;
@@ -25,11 +25,11 @@ public class Reservation {
 		return num_persons;
 	}
 
-	public Date getDate_to() {
+	public DateTime getDate_to() {
 		return date_to;
 	}
 
-	public Date getDate_from() {
+	public DateTime getDate_from() {
 		return date_from;
 	}
 
