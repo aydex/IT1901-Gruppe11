@@ -8,18 +8,17 @@
 *.war
 *.ear
 
-
-/libs/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+hs_err_pid*D
 /Gruppe11/nbproject/private/
 /Gruppe11/dist/
 /Gruppe11/build/
-=========
 /bin/
 .classpath
 /.metadata
 .project
 .DS_Store
 .settings
+/libs/
 libs/8
+libs/
