@@ -53,7 +53,7 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //Or any other driver
 		}
-		catch(Exception e){
+		catch(ClassNotFoundException e){
 			System.err.print("ClassNotFoundException: ");
 			System.err.println(e.getMessage());
 		}
@@ -83,8 +83,8 @@ public class DBConnect {
 					String name = rset.getString("name");
 					int size = rset.getInt("size");
 					int id = rset.getInt("koie_id");
-					double corLat = rset.getDouble("lat");
-					double corLong = rset.getDouble("long");
+					double corLat = rset.getDouble("latitude");
+					double corLong = rset.getDouble("longitude");
 					LatLong coordinates = new LatLong(corLat, corLong);
 					Cabin cabin = new Cabin(name, size, id, coordinates);
 					cabins.add(cabin);
