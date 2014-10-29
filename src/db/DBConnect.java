@@ -19,15 +19,8 @@ public class DBConnect {
 			System.out.println(cabins.get(i));
 		}
 		
-		//String string_from = "20-10-14";
-		//String string_to = "25-10-14";
-		//SimpleDateFormat f = new SimpleDateFormat("dd-mm-yy");
-		//Date from = f.parse(string_from);
-		//Date to = f.parse(string_to);
-		//makeReservation(2, new java.sql.Date(from.getTime()), new java.sql.Date(to.getTime()), "adrian.hundseth@hotmail.com", 5, 6);
 		getReservations();
 		
-		//makeReport("Kakerlakker i kaffen", 7, 8);
 		getReports();
 		
 		ArrayList<Reservation> stats = getStats();
@@ -49,6 +42,14 @@ public class DBConnect {
 		}
 	}
 	
+	/**
+	 * Connects to the database with the supplied static strings <code>url, userid and password</code>
+	 * <p>
+	 * If the connection fails to establish due to a missing MySQL driver or failure to reach the server, 
+	 * the function prints the error and returns the empty <code>con</code> object.
+	 * </p>  
+	 * @return The connection in the form of the <code>Connection</code> object <code>con</code>
+	 */
 	private static Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //Or any other driver
@@ -67,7 +68,12 @@ public class DBConnect {
 		return con;
 	}
 	
-	
+	/**
+	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
+	 * with all the cabins currently in the database. Returns empty if a connection cannot be made.
+	 * @return Returns an <code>ArrayList</code> with all the <code>Cabin</code> objects. 
+	 * If the connection cannot be made, it returns an empty <code>ArrayList</code>
+	 */
 	public static ArrayList<Cabin> getCabins() {
 		Connection con = getConnection();
 		ArrayList<Cabin> cabins = new ArrayList<Cabin>();
@@ -98,6 +104,12 @@ public class DBConnect {
 		return cabins;
 	}
 	
+	/**
+	 * Returns a <code>Reservation</code> object with the reservation that corresponds to
+	 * the supplied parameter <code>id</code>
+	 * @param id the unique ID of the reservation
+	 * @return A <code>Reservation</code> object corresponding to the <code>id</code>
+	 */
 	public static Reservation getReservationById(int id) {
 		ArrayList<Reservation> reservations = getReservations();
 		for (Reservation reservation : reservations) {
@@ -108,6 +120,12 @@ public class DBConnect {
 		return null;
 	}
 	
+	/**
+	 * Returns all the reports in the database in the form 
+	 * of an <code>ArrayList</code> with <code>Report</code> objects
+	 * @return <code>ArrayList</code> with <code>Report</code> objects. Returns an empty <code>ArrayList</code>
+	 * if connection cannot be made
+	 */
 	public static ArrayList<Report> getReports() {
 		Connection con = getConnection();
 		ArrayList<Report> reports = new ArrayList<Report>();
