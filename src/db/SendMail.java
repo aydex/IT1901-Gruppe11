@@ -50,7 +50,7 @@ public class SendMail {
 
     private String buildMessage (String recipient) {
         try {
-            ArrayList koieIdVisited = new ArrayList();
+            ArrayList<Integer> koieIdVisited = new ArrayList<Integer>();
             ArrayList<Report> reportsToSend = new ArrayList<Report>();
 
             ArrayList<Reservation> reservations = DBConnect.getReservations();
@@ -65,7 +65,7 @@ public class SendMail {
             for (int i = 0; i < reports.size(); i++) {
                 Report rep = reports.get(i);
                 for (int u = 0; u < koieIdVisited.size(); u++) {
-                    if (rep.getKoie_id() == koieIdVisited.get(u)) {
+                    if (rep.getKoie_id() == (int)koieIdVisited.get(u)) {
                         reportsToSend.add(rep);
                     }
                 }
