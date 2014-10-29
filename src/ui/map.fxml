@@ -1,8 +1,0 @@
-
-<?import com.lynden.gmapsfx.GoogleMapView?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MapController">
-    <children>
-        <GoogleMapView fx:id="mapView" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-    </children>
-</AnchorPane>

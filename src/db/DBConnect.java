@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import org.joda.time.*;
 
-import com.lynden.gmapsfx.javascript.object.LatLong;
-
 public class DBConnect {
 	private static String userid ="sondrehj_it1901", password = "banan11";
 	private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";	
@@ -85,8 +83,7 @@ public class DBConnect {
 					int id = rset.getInt("koie_id");
 					double corLat = rset.getDouble("latitude");
 					double corLong = rset.getDouble("longitude");
-					LatLong coordinates = new LatLong(corLat, corLong);
-					Cabin cabin = new Cabin(name, size, id, coordinates);
+					Cabin cabin = new Cabin(name, size, id);
 					cabins.add(cabin);
 				}
 			} catch (SQLException e) {
@@ -228,33 +225,24 @@ public class DBConnect {
 		
 	}
 		
-	public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int reservation_id, int koie_id) throws KoieException{
+	public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int koie_id) throws KoieException{
 		Connection con = getConnection();
-		
-		ArrayList<Reservation> reservations = getReservations();
-		for (Reservation reservation : reservations) {
-			if (reservation.getReservation_id() == reservation_id) {
-				throw new KoieException("Reservation already exists");
-			}
-		}
-		
+
 		String query = "INSERT INTO reservation (" 
 				+ " num_persons,"
 			    + " date_to,"
 			    + " date_from,"
 			    + " email,"
-			    + " reservation_id,"
 			    + " koie_id ) VALUES ("
-			    + "?, ?, ?, ?, ?, ?)";
-
+			    + "?, ?, ?, ?, ?)";
 		try {
 		    PreparedStatement preparedStmt = con.prepareStatement(query);
 		    preparedStmt.setInt 	(1, num_persons);
 		    preparedStmt.setDate 	(2, date_to);
 		    preparedStmt.setDate	(3, date_from);
 		    preparedStmt.setString	(4, email);
-		    preparedStmt.setInt		(5, reservation_id);
-		    preparedStmt.setInt		(6, koie_id);
+
+		    preparedStmt.setInt		(5, koie_id);
 		 
 		    preparedStmt.execute();
 		    
