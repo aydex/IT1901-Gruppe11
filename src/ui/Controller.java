@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
@@ -64,10 +65,17 @@ public class Controller {
                 content.setPrefWidth(900);
 
                 //Elementer som skal legges i content
+                //Headers
                 Label res_header = new Label("Reservasjoner");
                 Label def_header = new Label("Rapporter");
                 Label main_header = new Label(cabin.getName());
-                Label def_label = new Label(def_string);
+                //Reports
+                Text reports_text = new Text(def_string);
+                ScrollPane reports_pane = new ScrollPane();
+                reports_pane.setContent(reports_text);
+                TextArea addReport = new TextArea();
+                addReport.setPromptText("Add a new report..");
+                Button addReport_button = new Button("Add Report");
 
                 //Table
                 TableView<Reservation> table = new TableView<Reservation>();
@@ -102,15 +110,15 @@ public class Controller {
                 table.setItems(obsReservations);
                 table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
 
-                //Legg til fliring
+                //Lager input-felt
                 final TextField addNumPersons = new TextField();
                 addNumPersons.setPromptText("#Persons");
-                addNumPersons.setMaxWidth(60);
+                addNumPersons.setMaxWidth(63);
                 final TextField addDateFrom = new TextField();
-                addDateFrom.setMaxWidth(75);
+                addDateFrom.setMaxWidth(72);
                 addDateFrom.setPromptText("From Date");
                 final TextField addDateTo = new TextField();
-                addDateTo.setMaxWidth(75);
+                addDateTo.setMaxWidth(74);
                 addDateTo.setPromptText("To Date");
                 final TextField addEmail = new TextField();
                 addEmail.setMaxWidth(200);
@@ -159,6 +167,23 @@ public class Controller {
                     }
                 });
 
+                //Legger til en ny rapport
+                addReport_button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        String report_string =
+                                "ID: " + " N/A" + " \n\n" + "Rapport: " + "\n" + addReport.getText() +
+                                        "\n" + "------------------------" + "\n";
+                        reports_text.setText(reports_text.getText() + report_string);
+                        try {
+                            DBConnect.makeReport(addReport.getText(), cabin.getId());
+                            reports = DBConnect.getReports();
+                        } catch (KoieException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                });
 
                 //Styles skal etterhvert legges i en egen .css-fil
                 content.setStyle("-fx-background-color: #FFF");
@@ -167,34 +192,50 @@ public class Controller {
                 def_header.setStyle("-fx-font-size: 30px");
 
                 //Positions
-                def_label.setLayoutY(120);
-                def_label.setLayoutX(500);
+                reports_text.setLayoutY(120);
+                reports_text.setLayoutX(500);
                 res_header.setLayoutY(70);
                 def_header.setLayoutX(500);
                 def_header.setLayoutY(70);
-                table.setLayoutY(140);
+                table.setLayoutY(150);
+                //Reservasjon
                 int inputY = 520;
-                int inputX = 35;
+                int inputX = 30;
                 addNumPersons.setLayoutX(inputX);
                 addNumPersons.setLayoutY(inputY);
-                addDateFrom.setLayoutX(inputX + 65);
+                addDateFrom.setLayoutX(inputX + 68);
                 addDateFrom.setLayoutY(inputY);
-                addDateTo.setLayoutX(inputX + 140);
+                addDateTo.setLayoutX(inputX + 145);
                 addDateTo.setLayoutY(inputY);
-                addEmail.setLayoutX(inputX + 220);
+                addEmail.setLayoutX(inputX + 225);
                 addEmail.setLayoutY(inputY);
-                addButton.setLayoutX(inputX + 370);
+                addButton.setLayoutX(inputX + 380);
                 addButton.setLayoutY(inputY);
+                //Reports
+                reports_pane.setLayoutY(150);
+                reports_pane.setLayoutX(500);
+                addReport.setLayoutY(430);
+                addReport.setLayoutX(500);
+                addReport_button.setLayoutX(500);
+                addReport_button.setLayoutY(inputY);
 
                 //Size
-                int tableWidth = 450;
                 main_header.setPrefWidth(500);
+                //Table
+                int tableWidth = 450;
                 table.setPrefWidth(tableWidth);
                 table.setPrefHeight(360);
+                //reports_pane
+                reports_text.setWrappingWidth(225);
+                reports_pane.setPrefWidth(250);
+                reports_pane.setPrefHeight(275);
+                addReport.setPrefWidth(250);
+                addReport.setPrefHeight(80);
+                addReport_button.setPrefWidth(250);
 
                 //Legger til alle elementene i content.
-                content.getChildren().addAll(main_header, res_header, def_header, def_label, table, addButton,
-                        addDateFrom, addDateTo, addEmail, addNumPersons);
+                content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, addButton,
+                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button);
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
                 v.getChildren().add(content);
