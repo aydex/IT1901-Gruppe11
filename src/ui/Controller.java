@@ -65,11 +65,11 @@ public class Controller {
                 content.setPrefWidth(900);
 
                 //Elementer som skal legges i content
-                //Headers
+                    //Headers
                 Label res_header = new Label("Reservasjoner");
                 Label def_header = new Label("Rapporter");
                 Label main_header = new Label(cabin.getName());
-                //Reports
+                    //Reports
                 Text reports_text = new Text(def_string);
                 ScrollPane reports_pane = new ScrollPane();
                 reports_pane.setContent(reports_text);
@@ -86,7 +86,7 @@ public class Controller {
                 TableColumn toCol = new TableColumn("To");
                 TableColumn emailCol = new TableColumn("Email");
 
-                //Legger til data i hver av kolonne
+                    //Legger til data i hver av kolonne
                 idCol.setMinWidth(30);
                 idCol.setCellValueFactory(
                         new PropertyValueFactory<Reservation, String>("reservation_id"));
