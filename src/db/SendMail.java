@@ -50,7 +50,8 @@ public class SendMail {
 
     private String buildMessage (String recipient) {
         try {
-            ArrayList<Integer> koieIdVisited = new ArrayList();
+
+            ArrayList<Integer> koieIdVisited = new ArrayList<Integer>();
             ArrayList<Report> reportsToSend = new ArrayList<Report>();
 
             ArrayList<Reservation> reservations = DBConnect.getReservations();
