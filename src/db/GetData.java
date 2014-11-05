@@ -176,7 +176,7 @@ public class GetData {
     	if (con!=null) {
     		try {
     			Statement stmnt = con.createStatement();
-    			String strSelect = "SELECT FROM report WHERE koie_id = " + id;
+    			String strSelect = "SELECT * FROM report WHERE koie_id = " + id;
     			ResultSet rset = stmnt.executeQuery(strSelect);
     			while (rset.next()) {
                     int people = rset.getInt("num_persons");
