@@ -170,16 +170,23 @@ public class Controller {
                                     sqlf, addEmail.getText(), cabin.getId());
                             reservations = GetData.getReservations();
                             obsReservations.add(new Reservation(
-                                Integer.parseInt(addNumPersons.getText()),
-                                DateTime.parse(addDateTo.getText()),
-                                DateTime.parse(addDateFrom.getText()),
-                                addEmail.getText(),
-                                0,
-                                cabin.getId()
+                                    Integer.parseInt(addNumPersons.getText()),
+                                    DateTime.parse(addDateTo.getText()),
+                                    DateTime.parse(addDateFrom.getText()),
+                                    addEmail.getText(),
+                                    0,
+                                    cabin.getId()
                             ));
                         } catch (KoieException e1) {
                             exceptionOutPut.setText(e1.getMessage());
                         }
+                        Thread t1 = new Thread(new Runnable() {
+                            public void run() {
+                                sm.createAndSendMail(addEmail.getText());
+                            }
+                        });
+                        t1.start();
+
                         addNumPersons.clear();
                         addDateTo.clear();
                         addDateFrom.clear();
@@ -201,12 +208,6 @@ public class Controller {
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }
-                        Thread t1 = new Thread(new Runnable() {
-                            public void run() {
-                                sm.createAndSendMail(addEmail.getText());
-                            }
-                        });
-                        t1.start();
                     }
                 });
 
