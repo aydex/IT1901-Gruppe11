@@ -3,6 +3,8 @@ package db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
 
@@ -39,6 +41,11 @@ public class MakeData {
         	throw new KoieException("Can't reserve before current date");
         } else if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
         	throw new KoieException("Date to can't be before date from");
+        }
+        Matcher mat = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);
+        if(!mat.find()){
+            System.out.println("Email '" + email + "' is not valid.");
+            throw new KoieException("Email is not valid");
         }
         String query = "INSERT INTO reservation ("
                 + " num_persons,"
