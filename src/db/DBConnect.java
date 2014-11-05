@@ -18,6 +18,8 @@ public class DBConnect {
         for (int i = 0; i < cabins.size(); i++) {
             System.out.println(cabins.get(i));
         }
+        
+        delReservation(3);
 
         //String string_from = "20-10-14";
         //String string_to = "25-10-14";
@@ -245,11 +247,19 @@ public class DBConnect {
             System.err.println("SQLException: " + e.getMessage());
         }
     }
+    
 	public static void delReservation(int id) {
 		Connection con = getConnection();
-		
-		if (con!=null) {
-			
+		Statement stmnt = null;
+		try {
+			if (con!=null) {
+				String query = "DELETE FROM reservation WHERE reservation_id = " + id;
+				stmnt = con.createStatement();
+				stmnt.executeUpdate(query);
+				System.out.println("Deleted reservation");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException: " + e.getMessage());
 		}
 	}
 }
