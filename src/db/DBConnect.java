@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.joda.time.*;
 
+import ui.WebMap.LatLong;
+
 public class DBConnect {
     private static String userid = "sondrehj_it1901", password = "banan11";
     private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";
@@ -81,7 +83,7 @@ public class DBConnect {
                     int id = rset.getInt("koie_id");
                     double corLat = rset.getDouble("latitude");
                     double corLong = rset.getDouble("longitude");
-                    Cabin cabin = new Cabin(name, size, id);
+                    Cabin cabin = new Cabin(name, size, id, new LatLong((float)corLat, (float)corLong));
                     cabins.add(cabin);
                 }
             } catch (SQLException e) {

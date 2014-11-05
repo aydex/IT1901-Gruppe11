@@ -8,13 +8,11 @@ public class Cabin {
     private final int id;
     private final LatLong coords;
 	
-	Cabin(String name,int size,int id) {
+	Cabin(String name,int size,int id, LatLong coords) {
 		this.name = name;
 		this.size = size;
 		this.id = id;
-
-        // TODO: Hvor ble det av støtte for koordinater!?
-        this.coords = new LatLong((float) Math.random() + 63.4305f, (float) Math.random() + 10.4219f);
+        this.coords = coords;
 
     }
 	
@@ -31,8 +29,6 @@ public class Cabin {
 	}
 
     public LatLong getCoords(){
-        // TODO: Hvor ble det av støtte for koordinater!?
-
         return coords;
     }
 
