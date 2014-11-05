@@ -25,6 +25,7 @@ public class Controller {
     static ArrayList<Cabin> cabinList = GetData.getCabins();
     static ArrayList<Reservation> reservations = GetData.getReservations();
     static ArrayList<Report> reports = GetData.getReports();
+    private SendMail sm = new SendMail();
 
     public void deployCabins() {
 
@@ -117,12 +118,12 @@ public class Controller {
                 //Lager input-felt
                 final TextField addNumPersons = new TextField();
                 addNumPersons.setPromptText("#Persons");
-                addNumPersons.setMaxWidth(63);
+                addNumPersons.setMaxWidth(50);
                 final TextField addDateFrom = new TextField();
-                addDateFrom.setMaxWidth(72);
+                addDateFrom.setMaxWidth(90);
                 addDateFrom.setPromptText("From Date");
                 final TextField addDateTo = new TextField();
-                addDateTo.setMaxWidth(74);
+                addDateTo.setMaxWidth(90);
                 addDateTo.setPromptText("To Date");
                 final TextField addEmail = new TextField();
                 addEmail.setMaxWidth(200);
@@ -130,7 +131,7 @@ public class Controller {
                 final Button addButton = new Button("Add");
 
 
-                final Button backButton = new Button("Back");
+                final Button backButton = new Button("<--");
                 backButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -204,7 +205,12 @@ public class Controller {
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }
-
+                        Thread t1 = new Thread(new Runnable() {
+                            public void run() {
+                                sm.createAndSendMail(addEmail.getText());
+                            }
+                        });
+                        t1.start();
                     }
                 });
 
@@ -218,24 +224,25 @@ public class Controller {
                 reports_text.setLayoutY(120);
                 reports_text.setLayoutX(500);
                 res_header.setLayoutY(70);
-                def_header.setLayoutX(500);
+                def_header.setLayoutX(510);
                 def_header.setLayoutY(70);
                 table.setLayoutY(150);
+                main_header.setLayoutX(75);
                 //Reservasjon
                 int inputY = 520;
                 int inputX = 30;
-                addNumPersons.setLayoutX(inputX);
+                addNumPersons.setLayoutX(inputX - 25);
                 addNumPersons.setLayoutY(inputY);
-                addDateFrom.setLayoutX(inputX + 68);
+                addDateFrom.setLayoutX(inputX + 32);
                 addDateFrom.setLayoutY(inputY);
-                addDateTo.setLayoutX(inputX + 145);
+                addDateTo.setLayoutX(inputX + 127);
                 addDateTo.setLayoutY(inputY);
                 addEmail.setLayoutX(inputX + 225);
                 addEmail.setLayoutY(inputY);
                 addButton.setLayoutX(inputX + 380);
                 addButton.setLayoutY(inputY);
-                backButton.setLayoutX(0);
-                backButton.setLayoutY(0);
+                backButton.setLayoutX(10);
+                backButton.setLayoutY(10);
                 //Reports
                 reports_pane.setLayoutY(150);
                 reports_pane.setLayoutX(500);
@@ -246,6 +253,9 @@ public class Controller {
 
                 //Size
                 main_header.setPrefWidth(500);
+                backButton.setPrefWidth(40);
+                backButton.setPrefHeight(40);
+
                 //Table
                 int tableWidth = 450;
                 table.setPrefWidth(tableWidth);
