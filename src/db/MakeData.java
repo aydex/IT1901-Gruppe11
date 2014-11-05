@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.joda.time.DateTime;
+
 /**
  * This class contains static functions used to input information to the database.
  * @author Adrian Hundseth
  *
  */
 public class MakeData {
+	
     public static void makeReport(String deficiency, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         if (con != null) {
@@ -27,12 +30,16 @@ public class MakeData {
                 System.err.println("SQLException: " + e.getMessage());
             }
         }
-
     }
 
     public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
-
+        DateTime currentDate = new DateTime();
+        if ((new DateTime(date_from).isBefore(currentDate)) || (new DateTime(date_to).isBefore(currentDate))) {
+        	throw new KoieException("Can't reserve before current date");
+        } else if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
+        	throw new KoieException("Date to can't be before date from");
+        }
         String query = "INSERT INTO reservation ("
                 + " num_persons,"
                 + " date_to,"
