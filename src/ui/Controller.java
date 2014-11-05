@@ -67,11 +67,13 @@ public class Controller {
                 content.setPrefWidth(900);
 
                 //Elementer som skal legges i content
-                    //Headers
+                //Headers
                 Label res_header = new Label("Reservasjoner");
                 Label def_header = new Label("Rapporter");
                 Label main_header = new Label(cabin.getName());
-                    //Reports
+                Label exceptionOutPut = new Label("");
+
+                //Reports
                 Text reports_text = new Text(def_string);
                 ScrollPane reports_pane = new ScrollPane();
                 reports_pane.setContent(reports_text);
@@ -89,7 +91,7 @@ public class Controller {
                 TableColumn toCol = new TableColumn("To");
                 TableColumn emailCol = new TableColumn("Email");
 
-                    //Legger til data i hver av kolonne
+                //Legger til data i hver av kolonne
                 idCol.setMinWidth(30);
                 idCol.setCellValueFactory(
                         new PropertyValueFactory<Reservation, String>("reservation_id"));
@@ -135,7 +137,7 @@ public class Controller {
                     public void handle(ActionEvent event) {
                         AnchorPane p = (AnchorPane) Main.getRoot().lookup("#info");
                         try {
-                            p.getChildren().setAll( (AnchorPane) FXMLLoader.load(getClass().getResource("map.fxml")) );
+                            p.getChildren().setAll((AnchorPane) FXMLLoader.load(getClass().getResource("map.fxml")));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -175,7 +177,7 @@ public class Controller {
                                     sqlf, addEmail.getText(), cabin.getId());
                             reservations = GetData.getReservations();
                         } catch (KoieException e1) {
-                            e1.printStackTrace();
+                            exceptionOutPut.setText(e1.getMessage());
                         }
                         addNumPersons.clear();
                         addDateTo.clear();
@@ -212,6 +214,7 @@ public class Controller {
                 main_header.setStyle("-fx-font-size: 40px; -fx-text-alignment: center");
                 res_header.setStyle("-fx-font-size: 30px");
                 def_header.setStyle("-fx-font-size: 30px");
+                exceptionOutPut.setStyle("-fx-background-color: red");
 
                 //Positions
                 reports_text.setLayoutY(120);
@@ -219,6 +222,8 @@ public class Controller {
                 res_header.setLayoutY(70);
                 def_header.setLayoutX(510);
                 def_header.setLayoutY(70);
+                exceptionOutPut.setLayoutY(520);
+                exceptionOutPut.setLayoutX(225);
                 table.setLayoutY(150);
                 main_header.setLayoutX(75);
                 //Reservasjon
@@ -262,10 +267,9 @@ public class Controller {
                 addReport_button.setPrefWidth(250);
 
 
-
                 //Legger til alle elementene i content.
                 content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, backButton, addButton,
-                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button);
+                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button, exceptionOutPut);
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
                 v.getChildren().add(content);
