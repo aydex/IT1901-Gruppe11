@@ -1,4 +1,3 @@
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
@@ -14,16 +13,18 @@
                 </AnchorPane>
                 <AnchorPane>
                     <children>
-                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0">
                             <items>
-                                <AnchorPane id="info" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"
-                                        AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+                                <AnchorPane id="info">
                                     <children>
                                         <fx:include source="map.fxml" fx:id="subPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                                     </children>
                                 </AnchorPane>
-
+                                <AnchorPane id="statistics" minHeight="205">
+                                    <children>
+                                    </children>
+                                </AnchorPane>
                             </items>
                         </SplitPane>
                     </children>
