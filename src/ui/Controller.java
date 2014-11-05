@@ -148,23 +148,9 @@ public class Controller {
                 addButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        obsReservations.add(new Reservation(
-                                Integer.parseInt(addNumPersons.getText()),
-                                DateTime.parse(addDateTo.getText()),
-                                DateTime.parse(addDateFrom.getText()),
-                                addEmail.getText(),
-                                0,
-                                cabin.getId()
-                        ));
 
                         java.sql.Date sqlt = new java.sql.Date(0, 0, 0);
                         java.sql.Date sqlf = new java.sql.Date(0, 0, 0);
-                        String email = addEmail.getText();
-                        Matcher mat = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);
-                        if(!mat.find()){
-                            System.out.println("Email '" + email + "' is not valid.");
-                            return;
-                        }
                         try {
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                             String datet = addDateTo.getText();
@@ -181,8 +167,16 @@ public class Controller {
                             MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
                                     sqlf, addEmail.getText(), cabin.getId());
                             reservations = GetData.getReservations();
+                            obsReservations.add(new Reservation(
+                                Integer.parseInt(addNumPersons.getText()),
+                                DateTime.parse(addDateTo.getText()),
+                                DateTime.parse(addDateFrom.getText()),
+                                addEmail.getText(),
+                                0,
+                                cabin.getId()
+                            ));
                         } catch (KoieException e1) {
-                            e1.printStackTrace();
+                            e1.getMessage();
                         }
                         addNumPersons.clear();
                         addDateTo.clear();
