@@ -31,6 +31,7 @@ public class Controller {
         //Legger alle "Cabins" inn i ListView
         for (Cabin v : cabinList) {
             items.add(v);
+            WebMap.addMarker(v.getCoords(), v.getName());
         }
         t.setItems(items);
         //Legger til funksjon til elementene i listen, som kjøres når de klikkes på.
@@ -79,6 +80,7 @@ public class Controller {
                 Label main_header = new Label(cabin.getName());
                 Label res_label = new Label(res_string);
                 Label def_label = new Label(def_string);
+
 
                 //Table
                 TableView<Reservation> table = new TableView<Reservation>();
