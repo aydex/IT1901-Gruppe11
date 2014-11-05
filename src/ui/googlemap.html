@@ -16,7 +16,7 @@
 
     var latlng = new google.maps.LatLng(63.4305149, 10.421906);
     var myOptions = {
-      zoom: 10,
+      zoom: 7,
       center: latlng,
       mapTypeId: google.maps.MapTypeId.SATELLITE,
       mapTypeControl: false,
@@ -28,10 +28,9 @@
 
 
 
-    function onClick2(marker) {
-        var fxapp = document.getElementById("app");
-        if(fxapp != null){
-            document.map.setZoom(document.map.getZoom() + 1);
+    document.onClick2 = function onClick2(marker) {
+        document.map.setZoom(document.map.getZoom() + 1);
+        if(app != null){
             return marker.title;
         }
         return "null";

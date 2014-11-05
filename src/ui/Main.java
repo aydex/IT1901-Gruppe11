@@ -16,14 +16,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 
 public class Main extends Application {
     static Pane root;
-
+    public static Main main;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        main = this;
         root = FXMLLoader.load(getClass().getResource("layout.fxml"));
         primaryStage.setTitle("Koie");
         primaryStage.setScene(new Scene(root, 1000, 815));

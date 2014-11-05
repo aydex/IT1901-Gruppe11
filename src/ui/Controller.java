@@ -1,10 +1,12 @@
 package ui;
 
+import com.sun.deploy.util.FXLoader;
 import db.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,6 +130,20 @@ public class Controller {
                 addEmail.setPromptText("Email");
                 final Button addButton = new Button("Add");
 
+
+                final Button backButton = new Button("Back");
+                backButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        AnchorPane p = (AnchorPane) Main.getRoot().lookup("#info");
+                        try {
+                            p.getChildren().setAll( (AnchorPane) FXMLLoader.load(getClass().getResource("map.fxml")) );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
                 //Legger til ny reservasjon
                 addButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -213,6 +230,8 @@ public class Controller {
                 addEmail.setLayoutY(inputY);
                 addButton.setLayoutX(inputX + 380);
                 addButton.setLayoutY(inputY);
+                backButton.setLayoutX(0);
+                backButton.setLayoutY(0);
                 //Reports
                 reports_pane.setLayoutY(150);
                 reports_pane.setLayoutX(500);
@@ -236,7 +255,7 @@ public class Controller {
                 addReport_button.setPrefWidth(250);
 
                 //Legger til alle elementene i content.
-                content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, addButton,
+                content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, backButton, addButton,
                         addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button);
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);

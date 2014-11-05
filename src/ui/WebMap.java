@@ -15,28 +15,24 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSException;
 import netscape.javascript.JSObject;
 
 import javax.swing.event.DocumentEvent;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class WebMap implements Initializable {
 
     @FXML
     private AnchorPane maps;
 
-    private static boolean webMap_loaded = false;
-
     private static final WebView webView = new WebView();
     private static final WebEngine webEngine = webView.getEngine();
 
-    private static Queue<LatLong> locations = new LinkedList<LatLong>();
-    private static Queue<String> names = new LinkedList<String>();
+    private static JSObject jsObject;
 
-    public static JSObject jsObject;
+    private static Map<String, LatLong> markers = new HashMap<String, LatLong>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,17 +43,16 @@ public class WebMap implements Initializable {
         webEngine.getLoadWorker().stateProperty().addListener(
                 new ChangeListener<Worker.State>() {
                     public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
-                        webMap_loaded = true;
                         if (newState == Worker.State.SUCCEEDED) {
                             jsObject = (JSObject) webEngine.executeScript("window");
-                            jsObject.setMember("app", new Main());
-                            while(!locations.isEmpty() || !names.isEmpty()){
-                                String currentName = names.poll();
-                                LatLong currentLatLong = locations.poll();
+                            jsObject.setMember("app", Main.main);
+                            for (Map.Entry<String, LatLong> entry : markers.entrySet())
+                            {
+                                String currentName = entry.getKey();
+                                LatLong currentLatLong = entry.getValue();
                                 String run = "document.addMarkerToMap(" + currentLatLong.lat + ", " + currentLatLong.lon + ", \"" + currentName + "\")";
                                 webEngine.executeScript(run);
                             }
-//                        if (newState == Worker.State.)
                         }
                     }
                 });
@@ -82,8 +77,7 @@ public class WebMap implements Initializable {
     }
 
     public static void addMarker(LatLong latLong, String name) {
-        names.add(name);
-        locations.add(latLong);
+        markers.put(name, latLong);
     }
 
     public static class LatLong{
