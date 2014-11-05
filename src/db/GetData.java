@@ -12,6 +12,12 @@ import org.joda.time.Period;
 import ui.WebMap.LatLong;
 
 public class GetData {
+	/**
+	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
+	 * with all the cabins currently in the database. Returns empty if a connection cannot be made.
+	 * @return Returns an <code>ArrayList</code> with all the <code>Cabin</code> objects. 
+	 * If the connection cannot be made, it returns an empty <code>ArrayList</code>
+	 */
 	public static ArrayList<Cabin> getCabins() {
         Connection con = DBConnect.getConnection();
         ArrayList<Cabin> cabins = new ArrayList<Cabin>();
@@ -40,7 +46,13 @@ public class GetData {
         }
         return cabins;
     }
-
+	
+	/**
+	 * Returns a <code>Reservation</code> object with the reservation that corresponds to
+	 * the supplied parameter <code>id</code>
+	 * @param id the unique ID of the reservation
+	 * @return A <code>Reservation</code> object corresponding to the <code>id</code>
+	 */
     public static Reservation getReservationById(int id) {
         ArrayList<Reservation> reservations = getReservations();
         for (Reservation reservation : reservations) {
@@ -50,7 +62,13 @@ public class GetData {
         }
         return null;
     }
-
+    
+    /**
+	 * Returns all the reports in the database in the form 
+	 * of an <code>ArrayList</code> with <code>Report</code> objects
+	 * @return <code>ArrayList</code> with <code>Report</code> objects. Returns an empty <code>ArrayList</code>
+	 * if connection cannot be made
+	 */
     public static ArrayList<Report> getReports() {
         Connection con = DBConnect.getConnection();
         ArrayList<Report> reports = new ArrayList<Report>();
