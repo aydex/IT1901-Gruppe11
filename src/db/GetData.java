@@ -53,6 +53,16 @@ public class GetData {
         return cabins;
     }
 	
+	public static Cabin getCabinById(int id) {
+        ArrayList<Cabin> cabins = getCabins();
+        for (Cabin cabin : cabins) {
+            if (cabin.getId() == id) {
+                return cabin;
+            }
+        }
+        return null;
+	}
+	
 	/**
 	 * Returns a <code>Reservation</code> object with the reservation that corresponds to
 	 * the supplied parameter <code>id</code>

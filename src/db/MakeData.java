@@ -39,14 +39,22 @@ public class MakeData {
         DateTime currentDate = new DateTime();
         if ((new DateTime(date_from).isBefore(currentDate)) || (new DateTime(date_to).isBefore(currentDate))) {
         	throw new KoieException("Can't reserve before current date");
-        } else if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
+        }
+        if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
         	throw new KoieException("Date to can't be before date from");
+        }
+        if (GetData.getCabinById(koie_id).getSize() >= num_persons) {
+        	throw new KoieException("Too many people");
+        }
+        if (GetData.getCabinById(koie_id).getSize() < 1) {
+        	throw new KoieException("You must reserve for at least 1 person");
         }
         Matcher mat = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);
         if(!mat.find()){
             System.out.println("Email '" + email + "' is not valid.");
             throw new KoieException("Email is not valid");
         }
+        
         String query = "INSERT INTO reservation ("
                 + " num_persons,"
                 + " date_to,"
