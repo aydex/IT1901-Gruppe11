@@ -29,7 +29,7 @@ public class Main extends Application {
         root = FXMLLoader.load(getClass().getResource("layout.fxml"));
         primaryStage.setTitle("Koie");
         primaryStage.setScene(new Scene(root, 1000, 815));
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
         Controller con = new Controller();
         con.deployCabins();
