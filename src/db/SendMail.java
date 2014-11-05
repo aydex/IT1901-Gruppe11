@@ -58,7 +58,9 @@ public class SendMail {
             for (int i = 0; i < reservations.size(); i++) {
                 Reservation res = reservations.get(i);
                 if (res.getEmail().toLowerCase().equals(recipient)) {
-                    koieIdVisited.add(res.getKoie_id());
+                    if (!koieIdVisited.contains(res.getKoie_id())) {
+                        koieIdVisited.add(res.getKoie_id());
+                    }
                 }
             }
 

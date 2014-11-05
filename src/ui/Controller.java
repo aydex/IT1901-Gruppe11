@@ -23,6 +23,7 @@ public class Controller {
     static ArrayList<Cabin> cabinList = GetData.getCabins();
     static ArrayList<Reservation> reservations = GetData.getReservations();
     static ArrayList<Report> reports = GetData.getReports();
+    private SendMail sm = new SendMail();
 
     public void deployCabins() {
 
@@ -197,7 +198,12 @@ public class Controller {
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }
-
+                        Thread t1 = new Thread(new Runnable() {
+                            public void run() {
+                                sm.createAndSendMail(addEmail.getText());
+                            }
+                        });
+                        t1.start();
                     }
                 });
 
@@ -218,7 +224,7 @@ public class Controller {
                 //Reservasjon
                 int inputY = 520;
                 int inputX = 30;
-                addNumPersons.setLayoutX(inputX-25);
+                addNumPersons.setLayoutX(inputX - 25);
                 addNumPersons.setLayoutY(inputY);
                 addDateFrom.setLayoutX(inputX + 32);
                 addDateFrom.setLayoutY(inputY);
