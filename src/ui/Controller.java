@@ -30,6 +30,7 @@ public class Controller {
         //Legger alle "Cabins" inn i ListView
         for (Cabin v : cabinList) {
             items.add(v);
+            WebMap.addMarker(v.getCoords(), v.getName());
         }
         t.setItems(items);
 
@@ -76,6 +77,7 @@ public class Controller {
                 TextArea addReport = new TextArea();
                 addReport.setPromptText("Add a new report..");
                 Button addReport_button = new Button("Add Report");
+
 
                 //Table
                 TableView<Reservation> table = new TableView<Reservation>();
