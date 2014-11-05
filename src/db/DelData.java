@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * This class contains static functions used to remove information from the database.
+ * @author Adrian Hundseth
+ *
+ */
 public class DelData {
 	public static void delReservation(int id) {
 		Connection con = DBConnect.getConnection();

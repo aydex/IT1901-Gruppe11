@@ -11,6 +11,12 @@ import org.joda.time.Period;
 
 import ui.WebMap.LatLong;
 
+/**
+ * This class contains static functions used to get information out of the database.
+ * @author Adrian Hundseth
+ * @see DBConnect
+ *
+ */
 public class GetData {
 	/**
 	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
@@ -62,6 +68,7 @@ public class GetData {
         }
         return null;
     }
+
     
     /**
 	 * Returns all the reports in the database in the form 
@@ -162,4 +169,30 @@ public class GetData {
 
         return reservations;
     }
+    
+    public static ArrayList<Reservation> getStatsByCabin(int id) {
+    	Connection con = DBConnect.getConnection();
+    	ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+    	if (con!=null) {
+    		try {
+    			Statement stmnt = con.createStatement();
+    			String strSelect = "SELECT FROM report WHERE cabin_id = " + id;
+    			ResultSet rset = stmnt.executeQuery(strSelect);
+    			while (rset.next()) {
+                    int people = rset.getInt("num_persons");
+                    DateTime date_to = new DateTime(rset.getDate("date_to"));
+                    DateTime date_from = new DateTime(rset.getDate("date_from"));
+                    String email = rset.getString("email");
+                    int reservation_id = rset.getInt("reservation_id");
+                    int koie_id = rset.getInt("koie_id");
+                    Reservation reservation = new Reservation(people, date_to, date_from, email, reservation_id, koie_id);
+                    reservations.add(reservation);
+    			}
+    		} catch (SQLException e) {
+    			System.err.println("SQLException: " + e.getMessage());
+    		}
+    	}
+    	return reservations;
+    }
 }
+

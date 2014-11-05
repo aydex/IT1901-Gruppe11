@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * This class contains static functions used to input information to the database.
+ * @author Adrian Hundseth
+ *
+ */
 public class MakeData {
     public static void makeReport(String deficiency, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
