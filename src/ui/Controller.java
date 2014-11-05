@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller {
 
@@ -156,6 +158,12 @@ public class Controller {
 
                         java.sql.Date sqlt = new java.sql.Date(0, 0, 0);
                         java.sql.Date sqlf = new java.sql.Date(0, 0, 0);
+                        String email = addEmail.getText();
+                        Matcher mat = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);
+                        if(!mat.find()){
+                            System.out.println("Email '" + email + "' is not valid.");
+                            return;
+                        }
                         try {
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                             String datet = addDateTo.getText();
@@ -166,9 +174,8 @@ public class Controller {
                             sqlt = new java.sql.Date(parsedt.getTime());
                             sqlf = new java.sql.Date(parsedf.getTime());
                         } catch (Exception ø) {
-                            System.out.println("error");
+                            ø.printStackTrace();
                         }
-
                         try {
                             MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
                                     sqlf, addEmail.getText(), cabin.getId());
