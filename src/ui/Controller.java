@@ -173,7 +173,7 @@ public class Controller {
                         }
 
                         try {
-                            DBConnect.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
+                            MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
                                     sqlf, addEmail.getText(), cabin.getId());
                             reservations = GetData.getReservations();
                         } catch (KoieException e1) {
@@ -195,7 +195,7 @@ public class Controller {
                                         "\n" + "------------------------" + "\n";
                         reports_text.setText(reports_text.getText() + report_string);
                         try {
-                            DBConnect.makeReport(addReport.getText(), cabin.getId());
+                            MakeData.makeReport(addReport.getText(), cabin.getId());
                             reports = GetData.getReports();
                         } catch (KoieException e1) {
                             e1.printStackTrace();
