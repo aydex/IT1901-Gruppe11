@@ -1,6 +1,5 @@
 package ui;
 
-import com.sun.deploy.util.FXLoader;
 import db.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +17,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Controller {
+
     static ArrayList<Cabin> cabinList = GetData.getCabins();
     static ArrayList<Reservation> reservations = GetData.getReservations();
     static ArrayList<Report> reports = GetData.getReports();
@@ -46,10 +45,8 @@ public class Controller {
 
                 //Finner alle reservasjoner på hytta. Legger de til i ArrayListen reservations
                 ObservableList<Reservation> obsReservations = FXCollections.observableArrayList();
-                for (Reservation r : reservations) {
-                    if (r.getKoie_id() == cabin.getId()) {
-                        obsReservations.add(r);
-                    }
+                for (Reservation r : GetData.getStatsByCabin(cabin.getId())) {
+                    obsReservations.add(r);
                 }
                 //Finner alle mangler på hytta. Legger de til i ArrayListen deficiency
                 ArrayList<Report> cabin_reports = new ArrayList<Report>();
@@ -253,6 +250,8 @@ public class Controller {
                 addReport.setPrefWidth(250);
                 addReport.setPrefHeight(80);
                 addReport_button.setPrefWidth(250);
+
+
 
                 //Legger til alle elementene i content.
                 content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, backButton, addButton,

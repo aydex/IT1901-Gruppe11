@@ -173,10 +173,12 @@ public class GetData {
     public static ArrayList<Reservation> getStatsByCabin(int id) {
     	Connection con = DBConnect.getConnection();
     	ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+        DateTime currentDate = new DateTime();
+        DateTime statDate = currentDate.plus(Period.months(-6));
     	if (con!=null) {
     		try {
     			Statement stmnt = con.createStatement();
-    			String strSelect = "SELECT * FROM report WHERE koie_id = " + id;
+    			String strSelect = "SELECT * FROM reservation WHERE koie_id = " + id;
     			ResultSet rset = stmnt.executeQuery(strSelect);
     			while (rset.next()) {
                     int people = rset.getInt("num_persons");
@@ -186,7 +188,10 @@ public class GetData {
                     int reservation_id = rset.getInt("reservation_id");
                     int koie_id = rset.getInt("koie_id");
                     Reservation reservation = new Reservation(people, date_to, date_from, email, reservation_id, koie_id);
-                    reservations.add(reservation);
+                    if ((reservation.getDate_from().monthOfYear().get() >= statDate.monthOfYear().get()) &&
+                            (reservation.getDate_from().monthOfYear().get() <= currentDate.monthOfYear().get())) {
+                        reservations.add(reservation);
+                    }
     			}
     		} catch (SQLException e) {
     			System.err.println("SQLException: " + e.getMessage());

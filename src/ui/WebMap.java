@@ -45,7 +45,7 @@ public class WebMap implements Initializable {
                     public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
                         if (newState == Worker.State.SUCCEEDED) {
                             jsObject = (JSObject) webEngine.executeScript("window");
-                            jsObject.setMember("app", Main.main);
+                            //jsObject.setMember("app", new JavaApp());
                             for (Map.Entry<String, LatLong> entry : markers.entrySet())
                             {
                                 String currentName = entry.getKey();

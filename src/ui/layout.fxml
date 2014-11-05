@@ -23,32 +23,11 @@
                                                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefWidth="160.0">
-                                    <children>
-                                        <TableView prefHeight="195.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <columns>
-                                                <TableColumn prefWidth="120.0" text="Date" />
-                                                <TableColumn prefWidth="90.0" text="Monday" />
-                                                <TableColumn prefWidth="90.0" text="Tuesday" />
-                                                <TableColumn prefWidth="90.0" text="Wednesday" />
-                                                <TableColumn prefWidth="90.0" text="Thursday" />
-                                                <TableColumn prefWidth="90.0" text="Friday" />
-                                                <TableColumn prefWidth="90.0" text="Saturday" />
-                                                <TableColumn prefWidth="90.0" text="Sunday" />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </AnchorPane>
+
                             </items>
                         </SplitPane>
                     </children>
                 </AnchorPane>
-            </items>
-        </SplitPane>
-        <SplitPane dividerPositions="0.33138686131386863">
-            <items>
-                <Label text="Database: " />
-                <ProgressBar maxWidth="-Infinity" minWidth="-Infinity" prefHeight="18.0" progress="0.0" />
             </items>
         </SplitPane>
     </children>
