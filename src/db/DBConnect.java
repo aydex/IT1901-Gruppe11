@@ -243,4 +243,11 @@ public class DBConnect {
             System.err.println("SQLException: " + e.getMessage());
         }
     }
+	public static void delReservation(int id) {
+		Connection con = getConnection();
+		
+		if (con!=null) {
+			
+		}
+	}
 }
