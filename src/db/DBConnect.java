@@ -7,6 +7,14 @@ public class DBConnect {
     private static String url = "jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901";
     private static Connection con = null;
 
+    /**
+	 * Connects to the database with the supplied static strings <code>url, userid and password</code>
+	 * <p>
+	 * If the connection fails to establish due to a missing MySQL driver or failure to reach the server, 
+	 * the function prints the error and returns the empty <code>con</code> object.
+	 * </p>  
+	 * @return The connection in the form of the <code>Connection</code> object <code>con</code>
+	 */
     protected static Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver"); //Or any other driver
