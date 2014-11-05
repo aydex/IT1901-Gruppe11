@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Controller {
-    static ArrayList<Cabin> cabinList = DBConnect.getCabins();
-    static ArrayList<Reservation> reservations = DBConnect.getReservations();
-    static ArrayList<Report> reports = DBConnect.getReports();
+    static ArrayList<Cabin> cabinList = GetData.getCabins();
+    static ArrayList<Reservation> reservations = GetData.getReservations();
+    static ArrayList<Report> reports = GetData.getReports();
 
     public void deployCabins() {
 
@@ -175,7 +175,7 @@ public class Controller {
                         try {
                             DBConnect.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
                                     sqlf, addEmail.getText(), cabin.getId());
-                            reservations = DBConnect.getReservations();
+                            reservations = GetData.getReservations();
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }
@@ -196,7 +196,7 @@ public class Controller {
                         reports_text.setText(reports_text.getText() + report_string);
                         try {
                             DBConnect.makeReport(addReport.getText(), cabin.getId());
-                            reports = DBConnect.getReports();
+                            reports = GetData.getReports();
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }

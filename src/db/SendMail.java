@@ -54,7 +54,7 @@ public class SendMail {
             ArrayList<Integer> koieIdVisited = new ArrayList<Integer>();
             ArrayList<Report> reportsToSend = new ArrayList<Report>();
 
-            ArrayList<Reservation> reservations = DBConnect.getReservations();
+            ArrayList<Reservation> reservations = GetData.getReservations();
             for (int i = 0; i < reservations.size(); i++) {
                 Reservation res = reservations.get(i);
                 if (res.getEmail().toLowerCase().equals(recipient)) {
@@ -62,7 +62,7 @@ public class SendMail {
                 }
             }
 
-            ArrayList<Report> reports = DBConnect.getReports();
+            ArrayList<Report> reports = GetData.getReports();
             for (int i = 0; i < reports.size(); i++) {
                 Report rep = reports.get(i);
                 for (int u = 0; u < koieIdVisited.size(); u++) {
