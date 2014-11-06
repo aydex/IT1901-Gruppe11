@@ -25,8 +25,7 @@ public class Report {
 
 	@Override
 	public String toString() {
-		return "Report [deficiency=" + deficiency
-				+ ", koie_id=" + koie_id
-				+ "report_id=" + report_id + "]";
+		return "ID: " + getReport_id() + " \n\n" + "Rapport: " + "\n" + getDeficiency() +
+                "\n" + "------------------------" + "\n";
 	}
 }
