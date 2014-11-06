@@ -1,6 +1,8 @@
 package ui;
 
 import db.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -30,6 +34,7 @@ public class Controller {
     public void deployCabins() {
 
         final ListView t = (ListView) Main.getRoot().lookup("#hytteListe");
+        final int[] selected_reservation_id = new int[1];
         ObservableList<Cabin> items = FXCollections.observableArrayList();
 
         //Legger alle "Cabins" inn i ListView
@@ -117,6 +122,18 @@ public class Controller {
                 table.setItems(obsReservations);
                 table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
 
+                //ChangeListener som finner reservation_id på reservasjonen du klikker på i tabellen.
+                table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                        //Check whether item is selected and set value of selected item to Label
+                        if (table.getSelectionModel().getSelectedItem() != null) {
+                            selected_reservation_id[0] = table.getSelectionModel().getSelectedItem().getReservation_id();
+                            System.out.println(selected_reservation_id[0]);
+                        }
+                    }
+                });
+
                 //Lager input-felt
                 final TextField addNumPersons = new TextField();
                 addNumPersons.setPromptText("#Persons");
@@ -131,6 +148,7 @@ public class Controller {
                 addEmail.setMaxWidth(200);
                 addEmail.setPromptText("Email");
                 final Button addButton = new Button("Add");
+                final Button delReservation = new Button("Delete");
 
 
                 final Button backButton = new Button("<--");
@@ -142,6 +160,28 @@ public class Controller {
                             p.getChildren().setAll((AnchorPane) FXMLLoader.load(getClass().getResource("map.fxml")));
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                    }
+                });
+
+                //Sletter reservasjonen som er selected
+                delReservation.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (selected_reservation_id[0] != 0) {
+                            try {
+                                int temp_reservation_id = -1;
+                                for (Reservation r : obsReservations) {
+                                    if (r.getReservation_id() == selected_reservation_id[0]) {
+                                        temp_reservation_id = selected_reservation_id[0];
+                                        obsReservations.remove(r);
+                                        break;
+                                    }
+                                }
+                                DelData.delReservation(temp_reservation_id);
+                            } catch (Exception v) {
+                                v.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -241,6 +281,8 @@ public class Controller {
                 addEmail.setLayoutY(inputY);
                 addButton.setLayoutX(inputX + 380);
                 addButton.setLayoutY(inputY);
+                delReservation.setLayoutX(5);
+                delReservation.setLayoutY(115);
                 backButton.setLayoutX(10);
                 backButton.setLayoutY(10);
                 //Reports
@@ -271,7 +313,7 @@ public class Controller {
 
                 //Legger til alle elementene i content.
                 content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, backButton, addButton,
-                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button, exceptionOutPut);
+                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button, exceptionOutPut, delReservation);
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
                 v.getChildren().add(content);
