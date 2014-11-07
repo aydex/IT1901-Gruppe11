@@ -33,7 +33,7 @@ public class DelData {
 				String query = "DELETE FROM report WHERE report_id = " + id;
 				stmnt = con.createStatement();
 				stmnt.executeUpdate(query);
-				System.out.println("Deleted reservation " + id);
+				System.out.println("Deleted Report " + id);
 			}
 		} catch (SQLException e) {
 			System.err.println("SQLException: " + e.getMessage());

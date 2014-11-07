@@ -1,6 +1,8 @@
 package ui;
 
 import db.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,15 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import org.joda.time.DateTime;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Controller {
 
@@ -30,6 +28,8 @@ public class Controller {
     public void deployCabins() {
 
         final ListView t = (ListView) Main.getRoot().lookup("#hytteListe");
+        final int[] selected_reservation_id = new int[1];
+        final int[] selected_report_id = new int[1];
         ObservableList<Cabin> items = FXCollections.observableArrayList();
 
         //Legger alle "Cabins" inn i ListView
@@ -52,14 +52,10 @@ public class Controller {
                     obsReservations.add(r);
                 }
                 //Finner alle mangler på hytta. Legger de til i ArrayListen deficiency
-                ArrayList<Report> cabin_reports = new ArrayList<Report>();
-                String def_string = "";
+                ObservableList<Report> obsReports = FXCollections.observableArrayList();
                 for (Report rep : reports) {
                     if (rep.getKoie_id() == cabin.getId()) {
-                        cabin_reports.add(rep);
-                        def_string +=
-                                "ID: " + rep.getReport_id() + " \n\n" + "Rapport: " + "\n" + rep.getDeficiency() +
-                                        "\n" + "------------------------" + "\n";
+                        obsReports.add(rep);
                     }
                 }
 
@@ -76,12 +72,13 @@ public class Controller {
                 Label exceptionOutPut = new Label("");
 
                 //Reports
-                Text reports_text = new Text(def_string);
-                ScrollPane reports_pane = new ScrollPane();
-                reports_pane.setContent(reports_text);
+
+                ListView reports_lw = new ListView();
+                reports_lw.setItems(obsReports);
                 TextArea addReport = new TextArea();
                 addReport.setPromptText("Add a new report..");
                 Button addReport_button = new Button("Add Report");
+                Button delReport_button = new Button("Delete Report");
 
 
                 //Table
@@ -117,6 +114,18 @@ public class Controller {
                 table.setItems(obsReservations);
                 table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
 
+               //ChangeListener som finner reservation_id på reservasjonen du klikker på i tabellen.
+              table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                  @Override
+                  public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                      //Check whether item is selected and set value of selected item to Label
+                      if (table.getSelectionModel().getSelectedItem() != null) {
+                          selected_reservation_id[0] = table.getSelectionModel().getSelectedItem().getReservation_id();
+                          System.out.println(selected_reservation_id[0]);
+                      }
+                  }
+              });
+
                 //Lager input-felt
                 final TextField addNumPersons = new TextField();
                 addNumPersons.setPromptText("#Persons");
@@ -131,6 +140,7 @@ public class Controller {
                 addEmail.setMaxWidth(200);
                 addEmail.setPromptText("Email");
                 final Button addButton = new Button("Add");
+                final Button delReservation = new Button("Delete");
 
 
                 final Button backButton = new Button("<--");
@@ -142,6 +152,28 @@ public class Controller {
                             p.getChildren().setAll((AnchorPane) FXMLLoader.load(getClass().getResource("map.fxml")));
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                    }
+                });
+
+                //Sletter reservasjonen som er selected
+                delReservation.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (selected_reservation_id[0] != 0) {
+                            try {
+                                int temp_reservation_id = -1;
+                                for (Reservation r : obsReservations) {
+                                    if (r.getReservation_id() == selected_reservation_id[0]) {
+                                        temp_reservation_id = selected_reservation_id[0];
+                                        obsReservations.remove(r);
+                                        break;
+                                    }
+                                }
+                                DelData.delReservation(temp_reservation_id);
+                            } catch (Exception v) {
+                                v.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -194,20 +226,50 @@ public class Controller {
                     }
                 });
 
+
                 //Legger til en ny rapport
                 addReport_button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        String report_string =
-                                "ID: " + " N/A" + " \n\n" + "Rapport: " + "\n" + addReport.getText() +
-                                        "\n" + "------------------------" + "\n";
-                        reports_text.setText(reports_text.getText() + report_string);
+                        obsReports.add(new Report(
+                                addReport.getText(),
+                                cabin.getId(),
+                                0));
                         try {
                             MakeData.makeReport(addReport.getText(), cabin.getId());
                             reports = GetData.getReports();
                         } catch (KoieException e1) {
                             e1.printStackTrace();
                         }
+                    }
+                });
+                //Fjerner rapporten som er markert
+                delReport_button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (selected_report_id[0] != 0) {
+                            try {
+                                int temp_report_id = -1;
+                                for (Report r : reports) {
+                                    if (r.getReport_id() == selected_report_id[0]) {
+                                        temp_report_id = selected_report_id[0];
+                                        obsReports.remove(r);
+                                        break;
+                                    }
+                                }
+                                DelData.delReport(temp_report_id);
+                                reports = GetData.getReports();
+                            } catch (Exception v) {
+                                v.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                //ChangeListener som holder styr på hvilken rapport som er markert
+                reports_lw.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                        selected_report_id[0] = ((Report) reports_lw.getSelectionModel().getSelectedItem()).getReport_id();
                     }
                 });
 
@@ -219,8 +281,6 @@ public class Controller {
                 exceptionOutPut.setStyle("-fx-background-color: red");
 
                 //Positions
-                reports_text.setLayoutY(120);
-                reports_text.setLayoutX(500);
                 res_header.setLayoutY(70);
                 def_header.setLayoutX(510);
                 def_header.setLayoutY(70);
@@ -241,15 +301,20 @@ public class Controller {
                 addEmail.setLayoutY(inputY);
                 addButton.setLayoutX(inputX + 380);
                 addButton.setLayoutY(inputY);
+                delReservation.setLayoutX(5);
+                delReservation.setLayoutY(115);
                 backButton.setLayoutX(10);
                 backButton.setLayoutY(10);
                 //Reports
-                reports_pane.setLayoutY(150);
-                reports_pane.setLayoutX(500);
+
+                reports_lw.setLayoutY(150);
+                reports_lw.setLayoutX(500);
                 addReport.setLayoutY(430);
                 addReport.setLayoutX(500);
                 addReport_button.setLayoutX(500);
                 addReport_button.setLayoutY(inputY);
+                delReport_button.setLayoutX(500);
+                delReport_button.setLayoutY(inputY + 30);
 
                 //Size
                 main_header.setPrefWidth(500);
@@ -261,17 +326,18 @@ public class Controller {
                 table.setPrefWidth(tableWidth);
                 table.setPrefHeight(360);
                 //reports_pane
-                reports_text.setWrappingWidth(225);
-                reports_pane.setPrefWidth(250);
-                reports_pane.setPrefHeight(275);
+                reports_lw.setPrefHeight(275);
+                reports_lw.setPrefWidth(250);
                 addReport.setPrefWidth(250);
                 addReport.setPrefHeight(80);
                 addReport_button.setPrefWidth(250);
+                delReport_button.setPrefWidth(250);
 
 
                 //Legger til alle elementene i content.
-                content.getChildren().addAll(main_header, res_header, def_header, reports_text, table, backButton, addButton,
-                        addDateFrom, addDateTo, addEmail, addNumPersons, reports_pane, addReport, addReport_button, exceptionOutPut);
+                content.getChildren().addAll(main_header, res_header, def_header,table, backButton, addButton,
+                        addDateFrom, addDateTo, addEmail, addNumPersons, addReport, addReport_button, delReport_button,
+                        exceptionOutPut,delReservation, reports_lw);
                 if (v.getChildren().size() > 0)
                     v.getChildren().remove(0);
                 v.getChildren().add(content);

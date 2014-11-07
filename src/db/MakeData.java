@@ -44,7 +44,7 @@ public class MakeData {
         if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
         	throw new KoieException("Date to can't be before date from");
         }
-        if (GetData.getCabinById(koie_id).getSize() >= num_persons) {
+        if (GetData.getCabinById(koie_id).getSize() <= num_persons) {
         	throw new KoieException("Too many people");
         }
         if (GetData.getCabinById(koie_id).getSize() < 1) {
