@@ -35,6 +35,7 @@ public class MakeData {
     }
 
     public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int koie_id) throws KoieException {
+        System.out.println("MAKING RESERVATION");
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
         if ((new DateTime(date_from).isBefore(currentDate)) || (new DateTime(date_to).isBefore(currentDate))) {
@@ -69,7 +70,7 @@ public class MakeData {
             preparedStmt.setDate(3, date_from);
             preparedStmt.setString(4, email);
             preparedStmt.setInt(5, koie_id);
-
+            System.out.print(preparedStmt.toString());
             preparedStmt.execute();
 
             //stmnt.executeUpdate("INSERT INTO reservation " + "VALUES (" + num_persons + ", " + date_to +
