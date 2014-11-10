@@ -50,19 +50,7 @@
     	var zoomLevel = document.map.getZoom();
     	if (zoomLevel > 0) document.map.setZoom(zoomLevel - 1);
     }
-    
-    document.setMapTypeRoad = function setMapTypeRoad() {
-    	document.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    }
-    document.setMapTypeSatellite = function setMapTypeSatellite() {
-    	document.map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
-    }
-    document.setMapTypeHybrid = function setMapTypeHybrid() {
-    	document.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
-    }
-    document.setMapTypeTerrain = function setMapTypeTerrain() {
-    	document.map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
-    }
+
     document.addMarkerToMap = function addMarkerToMap(lat, long, name) {
         var latlng4 = new google.maps.LatLng(lat, long);
         var marker = new google.maps.Marker({
