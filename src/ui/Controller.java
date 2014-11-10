@@ -151,23 +151,20 @@ public class Controller {
                     @Override
                     public void handle(ActionEvent e) {
 
-                        java.sql.Date sqlt = new java.sql.Date(0, 0, 0);
-                        java.sql.Date sqlf = new java.sql.Date(0, 0, 0);
+                        DateTime parsedt;
+                        DateTime parsedf;
                         try {
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                             String datet = addDateTo.getText();
                             System.out.println(datet);
                             String datef = addDateFrom.getText();
-                            Date parsedt = format.parse(datet);
-                            Date parsedf = format.parse(datef);
-                            sqlt = new java.sql.Date(parsedt.getTime());
-                            sqlf = new java.sql.Date(parsedf.getTime());
+                            parsedt = new DateTime(format.parse(datet));
+                            parsedf = new DateTime(format.parse(datef));
                         } catch (Exception ø) {
                             ø.printStackTrace();
                         }
                         try {
-                            MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
-                                    sqlf, addEmail.getText(), cabin.getId());
+                            MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), parsedt, parsedf, addEmail.getText(), cabin.getId());
                             reservations = GetData.getReservations();
                             obsReservations.add(new Reservation(
                                     Integer.parseInt(addNumPersons.getText()),
