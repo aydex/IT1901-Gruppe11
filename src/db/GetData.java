@@ -94,7 +94,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "select * from report";
-                System.out.println("The SQL Query is: " + strSelect);
+                System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 System.out.println("The reports are:");
@@ -106,10 +106,6 @@ public class GetData {
                     for (int i = 0; i < 20; i++) {
                         System.out.print("-");
                     }
-                    System.out.println();
-                    System.out.println("Deficiency: " + deficiency);
-                    System.out.println("Hytte nummer " + koie_id);
-                    System.out.println("Rapport nummer " + report_id);
                     Report report = new Report(deficiency, koie_id, report_id);
                     reports.add(report);
                 }

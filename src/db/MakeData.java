@@ -1,7 +1,6 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -74,11 +73,7 @@ public class MakeData {
             preparedStmt.setDate(3, new java.sql.Date(date_from.getMillis()));
             preparedStmt.setString(4, email);
             preparedStmt.setInt(5, koie_id);
-            System.out.print(preparedStmt.toString());
             preparedStmt.execute();
-
-            //stmnt.executeUpdate("INSERT INTO reservation " + "VALUES (" + num_persons + ", " + date_to +
-            //", " + date_from + ", " + email + ", " + reservation_id + ", " + koie_id + ")");
         } catch (SQLException e) {
             System.err.println("SQLException: " + e.getMessage());
         }
