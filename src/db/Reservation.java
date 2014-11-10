@@ -18,8 +18,8 @@ public class Reservation {
         this.num_persons = num_persons;
         this.date_to = date_to;
         this.date_from = date_from;
-        this.date_to_formatted = date_to.toString("YYYY, MM, DD");
-        this.date_from_formatted = date_from.toString("YYYY,MM,DD");
+        this.date_to_formatted = date_to.toString("YYYY.MM.dd");
+        this.date_from_formatted = date_from.toString("YYYY.MM.dd");
         this.email = email;
         this.reservation_id = reservation_id;
         this.koie_id = koie_id;
