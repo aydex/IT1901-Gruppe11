@@ -66,8 +66,8 @@ public class MakeData {
         try {
             PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setInt(1, num_persons);
-            preparedStmt.setDate(2, (Date) date_to.toDate());
-            preparedStmt.setDate(3, (Date) date_from.toDate());
+            preparedStmt.setDate(2, new java.sql.Date(date_to.getMillis()));
+            preparedStmt.setDate(3, new java.sql.Date(date_from.getMillis()));
             preparedStmt.setString(4, email);
             preparedStmt.setInt(5, koie_id);
             System.out.print(preparedStmt.toString());
