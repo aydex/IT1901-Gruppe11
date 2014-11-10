@@ -28,15 +28,14 @@
       minZoom: 7
     };
 
-
-
     document.onClick2 = function onClick2(marker) {
         document.map.setZoom(document.map.getZoom() + 1);
         if(app != null){
-            return marker.title;
-        }
-        return "null";
+        return marker.title;
+      }
+      return "null";
     }
+
 
     document.geocoder = new google.maps.Geocoder();
     document.map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
