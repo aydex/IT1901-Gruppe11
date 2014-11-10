@@ -185,7 +185,7 @@ public class GetData {
     	Connection con = DBConnect.getConnection();
     	ArrayList<Reservation> reservations = new ArrayList<Reservation>();
         DateTime currentDate = new DateTime();
-        DateTime statDate = currentDate.plus(Period.months(-6));
+        DateTime sixMonthsAgo = currentDate.plus(Period.months(-6));
     	if (con!=null) {
     		try {
     			Statement stmnt = con.createStatement();
@@ -199,8 +199,7 @@ public class GetData {
                     int reservation_id = rset.getInt("reservation_id");
                     int koie_id = rset.getInt("koie_id");
                     Reservation reservation = new Reservation(people, date_to, date_from, email, reservation_id, koie_id);
-                    if ((reservation.getDate_from().monthOfYear().get() >= statDate.monthOfYear().get()) &&
-                            (reservation.getDate_from().monthOfYear().get() <= currentDate.monthOfYear().get())) {
+                    if (reservation.getDate_to().isAfter(sixMonthsAgo) && reservation.getDate_from().isAfter(sixMonthsAgo)) {
                         reservations.add(reservation);
                     }
     			}
