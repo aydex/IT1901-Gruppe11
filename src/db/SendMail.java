@@ -1,25 +1,7 @@
-/*---------------------------------------------------------------------
- |  Class [SendMail] - author [Nikolai Hegelstad]
- |
- |  Purpose:  [Sender epost til oppgitt epost-adresse med informasjon
- |      om mangler ved hyttene eposten har reservasjoner ved.]
- |
- |  Pre-condition:  [Oppgitt epost må ha reservasjon inne i systemet,
- |      samt at det må være en mangel ved hytten det er reservasjon på.
- |          Benytter seg av DBConnect og javax.mail.jar]
- |
- |  Post-condition: [Mail blir sendt, ingen db-entries blir endret.]
- |
- |  Parameters:
- |      recipient -- [String-verdi av epost-adresse.]
- |
- |  Returns:  [None - so far.]
- *-------------------------------------------------------------------*/
 package db;
 
 import java.util.ArrayList;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -28,11 +10,23 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * The class {@code SendMail} initializes a Google Mail session
+ * and allows you to send dynamic hardcoded content over mail from
+ * a hardcoded account to any specified e-mail account.
+ * recipient.
+ *
+ * @author  Nikolai Hegelstad
+ */
+
 public class SendMail {
     final String username = "koieguide@gmail.com";
     final String password = "banan111";
     private Session session;
 
+    /**
+     * Initializes an Google Mail session.
+     */
     public SendMail() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -48,6 +42,14 @@ public class SendMail {
                 });
     }
 
+    /**
+     * The method {@code buildMessage} utilizes {@code ui.GetData}
+     * to retrieve relevant information regarding the state of the
+     * cabin where the recipient holds a reservation.
+     *
+     * @param recipient user which associated data is linked to
+     * @return message
+     */
     private String buildMessage (String recipient) {
         try {
 
@@ -92,7 +94,12 @@ public class SendMail {
         }
     }
 
-    //bruk denne funksjonen for å sende mail, skriv inn epost-addresse og den henter ut alle mangler ved epostens reservasjoner.
+    /**
+     * The method {@code createAndSendMail} utilizes the instanced session
+     * to create the mail to be sent, then sends it to the specified recipient.
+     *
+     * @param recipient user whom is to receive mail
+     */
     public void createAndSendMail(String recipient) {
         try {
             recipient = recipient.toLowerCase();
@@ -111,10 +118,16 @@ public class SendMail {
         }
     }
 
-    //for testing purposes:
+    /**
+     * The method {@code main} is used for testing purposes.
+     *
+     * @param args
+     */
+    /*
     public static void main(String[] args) {
         SendMail sendmail = new SendMail();
         //System.out.println(sendmail.buildMessage("nikolai@hegelstad.net")); //console-log av meldingen som sendes.
         sendmail.createAndSendMail("nikolai@hegelstad.net"); //plis ikke spam denne private eposten.
     }
+    */
 }
