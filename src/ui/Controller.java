@@ -103,11 +103,11 @@ public class Controller {
 
                     fromCol.setMinWidth(75);
                     fromCol.setCellValueFactory(
-                            new PropertyValueFactory<Reservation, String>("date_from"));
+                            new PropertyValueFactory<Reservation, String>("date_from_formatted"));
 
                     toCol.setMinWidth(75);
                     toCol.setCellValueFactory(
-                            new PropertyValueFactory<Reservation, String>("date_to"));
+                            new PropertyValueFactory<Reservation, String>("date_to_formatted"));
 
                     emailCol.setMinWidth(200);
                     emailCol.setCellValueFactory(

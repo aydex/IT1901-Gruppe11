@@ -7,6 +7,8 @@ public class Reservation {
     private final int num_persons;
     private final DateTime date_to;
     private final DateTime date_from;
+    private final String date_to_formatted;
+    private final String date_from_formatted;
     private final String email;
     private final int reservation_id;
     private final int koie_id;
@@ -16,6 +18,8 @@ public class Reservation {
         this.num_persons = num_persons;
         this.date_to = date_to;
         this.date_from = date_from;
+        this.date_to_formatted = date_to.toString("YYYY, MM, DD");
+        this.date_from_formatted = date_from.toString("YYYY,MM,DD");
         this.email = email;
         this.reservation_id = reservation_id;
         this.koie_id = koie_id;
@@ -29,11 +33,19 @@ public class Reservation {
         return date_to;
     }
 
-    public DateTime getDate_from() {
+    public String getDate_to_formatted() {
+		return date_to_formatted;
+	}
+
+	public DateTime getDate_from() {
         return date_from;
     }
 
-    public String getEmail() {
+    public String getDate_from_formatted() {
+		return date_from_formatted;
+	}
+
+	public String getEmail() {
         return email;
     }
 
