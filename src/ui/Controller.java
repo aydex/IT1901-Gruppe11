@@ -14,6 +14,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class Controller {
         t.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(event.getButton().equals(MouseButton.PRIMARY)){
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
                     final AnchorPane v = (AnchorPane) Main.getRoot().lookup("#info");
                     Cabin cabin = (Cabin) t.getSelectionModel().getSelectedItem();
 
@@ -115,17 +116,17 @@ public class Controller {
 
                     table.setItems(obsReservations);
                     table.getColumns().addAll(idCol, numPersCol, fromCol, toCol, emailCol);
-                       //ChangeListener som finner reservation_id på reservasjonen du klikker på i tabellen.
-                      table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                          @Override
-                          public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
-                              //Check whether item is selected and set value of selected item to Label
-                              if (table.getSelectionModel().getSelectedItem() != null) {
-                                  selected_reservation_id[0] = table.getSelectionModel().getSelectedItem().getReservation_id();
-                                  System.out.println(selected_reservation_id[0]);
-                              }
-                          }
-                      });
+                    //ChangeListener som finner reservation_id på reservasjonen du klikker på i tabellen.
+                    table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                            //Check whether item is selected and set value of selected item to Label
+                            if (table.getSelectionModel().getSelectedItem() != null) {
+                                selected_reservation_id[0] = table.getSelectionModel().getSelectedItem().getReservation_id();
+                                System.out.println(selected_reservation_id[0]);
+                            }
+                        }
+                    });
 
 
                     //Lager input-felt
@@ -177,47 +178,47 @@ public class Controller {
                                     v.printStackTrace();
                                 }
                             }
-                    }
-                });
-
-                //Legger til ny reservasjon
-                addButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-
-                        DateTime parsedt = null;
-                        DateTime parsedf = null;
-                        try {
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                            String datet = addDateTo.getText();
-                            System.out.println(datet);
-                            String datef = addDateFrom.getText();
-                            parsedt = new DateTime(format.parse(datet));
-                            parsedf = new DateTime(format.parse(datef));
-                        } catch (Exception ø) {
-                            ø.printStackTrace();
                         }
-                        try {
-                            MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), parsedt, parsedf, addEmail.getText(), cabin.getId());
-                            reservations = GetData.getReservations();
-                            obsReservations.add(new Reservation(
-                                    Integer.parseInt(addNumPersons.getText()),
-                                    DateTime.parse(addDateTo.getText()),
-                                    DateTime.parse(addDateFrom.getText()),
-                                    addEmail.getText(),
-                                    0,
-                                    cabin.getId()
-                            ));
-                        } catch (KoieException e1) {
-                            exceptionOutPut.setText(e1.getMessage());
-                        }
-                            Thread t1 = new Thread(new Runnable() {
-                                public void run() {
-                                    sm.createAndSendMail(addEmail.getText());
-                                }
-                            });
-                            t1.start();
+                    });
 
+                    //Legger til ny reservasjon
+                    addButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+
+                            DateTime parsedt = null;
+                            DateTime parsedf = null;
+                            try {
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                String datet = addDateTo.getText();
+                                System.out.println(datet);
+                                String datef = addDateFrom.getText();
+                                parsedt = new DateTime(format.parse(datet));
+                                parsedf = new DateTime(format.parse(datef));
+                            } catch (Exception ø) {
+                                ø.printStackTrace();
+                            }
+                            try {
+                                MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), parsedt, parsedf, addEmail.getText(), cabin.getId());
+                                reservations = GetData.getReservations();
+                                obsReservations.add(new Reservation(
+                                        Integer.parseInt(addNumPersons.getText()),
+                                        DateTime.parse(addDateTo.getText()),
+                                        DateTime.parse(addDateFrom.getText()),
+                                        addEmail.getText(),
+                                        0,
+                                        cabin.getId()
+                                ));
+
+                                Thread t1 = new Thread(new Runnable() {
+                                    public void run() {
+                                        sm.createAndSendMail(addEmail.getText());
+                                    }
+                                });
+                                t1.start();
+                            } catch (KoieException e1) {
+                                exceptionOutPut.setText(e1.getMessage());
+                            }
                             addNumPersons.clear();
                             addDateTo.clear();
                             addDateFrom.clear();
@@ -277,14 +278,14 @@ public class Controller {
                     main_header.setStyle("-fx-font-size: 40px; -fx-text-alignment: center");
                     res_header.setStyle("-fx-font-size: 30px");
                     def_header.setStyle("-fx-font-size: 30px");
-                    exceptionOutPut.setStyle("-fx-background-color: red");
+                    exceptionOutPut.setStyle("-fx-text-fill: red");
 
                     //Positions
                     res_header.setLayoutY(70);
                     def_header.setLayoutX(510);
                     def_header.setLayoutY(70);
-                    exceptionOutPut.setLayoutY(520);
-                    exceptionOutPut.setLayoutX(225);
+                    exceptionOutPut.setLayoutY(565);
+                    exceptionOutPut.setLayoutX(125);
                     table.setLayoutY(150);
                     main_header.setLayoutX(75);
                     //Reservasjon
@@ -334,13 +335,13 @@ public class Controller {
 
 
                     //Legger til alle elementene i content.
-                    content.getChildren().addAll(main_header, res_header, def_header,table, backButton, addButton,
+                    content.getChildren().addAll(main_header, res_header, def_header, table, backButton, addButton,
                             addDateFrom, addDateTo, addEmail, addNumPersons, addReport, addReport_button, delReport_button,
-                            exceptionOutPut,delReservation, reports_lw);
+                            exceptionOutPut, delReservation, reports_lw);
                     if (v.getChildren().size() > 0)
                         v.getChildren().remove(0);
                     v.getChildren().add(content);
-                } else if (event.getButton().equals(MouseButton.SECONDARY)){
+                } else if (event.getButton().equals(MouseButton.SECONDARY)) {
                     t.getSelectionModel().select(t.getSelectionModel().getSelectedItems());
                 }
             }
