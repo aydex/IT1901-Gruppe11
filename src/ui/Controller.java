@@ -177,43 +177,40 @@ public class Controller {
                                     v.printStackTrace();
                                 }
                             }
+                    }
+                });
+
+                //Legger til ny reservasjon
+                addButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+
+                        DateTime parsedt = null;
+                        DateTime parsedf = null;
+                        try {
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            String datet = addDateTo.getText();
+                            System.out.println(datet);
+                            String datef = addDateFrom.getText();
+                            parsedt = new DateTime(format.parse(datet));
+                            parsedf = new DateTime(format.parse(datef));
+                        } catch (Exception ø) {
+                            ø.printStackTrace();
                         }
-                    });
-
-                    //Legger til ny reservasjon
-                    addButton.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-
-                            java.sql.Date sqlt = new java.sql.Date(0, 0, 0);
-                            java.sql.Date sqlf = new java.sql.Date(0, 0, 0);
-                            try {
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                String datet = addDateTo.getText();
-                                System.out.println(datet);
-                                String datef = addDateFrom.getText();
-                                Date parsedt = format.parse(datet);
-                                Date parsedf = format.parse(datef);
-                                sqlt = new java.sql.Date(parsedt.getTime());
-                                sqlf = new java.sql.Date(parsedf.getTime());
-                            } catch (Exception ø) {
-                                ø.printStackTrace();
-                            }
-                            try {
-                                MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), sqlt,
-                                        sqlf, addEmail.getText(), cabin.getId());
-                                reservations = GetData.getReservations();
-                                obsReservations.add(new Reservation(
-                                        Integer.parseInt(addNumPersons.getText()),
-                                        DateTime.parse(addDateTo.getText()),
-                                        DateTime.parse(addDateFrom.getText()),
-                                        addEmail.getText(),
-                                        0,
-                                        cabin.getId()
-                                ));
-                            } catch (KoieException e1) {
-                                exceptionOutPut.setText(e1.getMessage());
-                            }
+                        try {
+                            MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), parsedt, parsedf, addEmail.getText(), cabin.getId());
+                            reservations = GetData.getReservations();
+                            obsReservations.add(new Reservation(
+                                    Integer.parseInt(addNumPersons.getText()),
+                                    DateTime.parse(addDateTo.getText()),
+                                    DateTime.parse(addDateFrom.getText()),
+                                    addEmail.getText(),
+                                    0,
+                                    cabin.getId()
+                            ));
+                        } catch (KoieException e1) {
+                            exceptionOutPut.setText(e1.getMessage());
+                        }
                             Thread t1 = new Thread(new Runnable() {
                                 public void run() {
                                     sm.createAndSendMail(addEmail.getText());

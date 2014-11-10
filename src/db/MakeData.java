@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -34,14 +35,13 @@ public class MakeData {
         }
     }
 
-    public static void makeReservation(int num_persons, java.sql.Date date_to, java.sql.Date date_from, String email, int koie_id) throws KoieException {
-        System.out.println("MAKING RESERVATION");
+    public static void makeReservation(int num_persons, DateTime date_to, DateTime date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
-        if ((new DateTime(date_from).isBefore(currentDate)) || (new DateTime(date_to).isBefore(currentDate))) {
+        if (date_from.isBefore(currentDate) || date_to.isBefore(currentDate)) {
         	throw new KoieException("Can't reserve before current date");
         }
-        if (new DateTime(date_to).isBefore(new DateTime(date_to))) {
+        if ((date_to).isBefore(date_from)) {
         	throw new KoieException("Date to can't be before date from");
         }
         if (GetData.getCabinById(koie_id).getSize() <= num_persons) {
@@ -66,8 +66,8 @@ public class MakeData {
         try {
             PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setInt(1, num_persons);
-            preparedStmt.setDate(2, date_to);
-            preparedStmt.setDate(3, date_from);
+            preparedStmt.setDate(2, (Date) date_to.toDate());
+            preparedStmt.setDate(3, (Date) date_from.toDate());
             preparedStmt.setString(4, email);
             preparedStmt.setInt(5, koie_id);
             System.out.print(preparedStmt.toString());

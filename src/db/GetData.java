@@ -19,6 +19,7 @@ import ui.WebMap.LatLong;
  */
 public class GetData {
 	/**
+	 * Retrieves all the cabins currently on the database.
 	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
 	 * with all the cabins currently in the database. Returns empty if a connection cannot be made.
 	 * @return Returns an <code>ArrayList</code> with all the <code>Cabin</code> objects. 
