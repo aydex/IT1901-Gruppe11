@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +39,7 @@ public class MakeData {
     public static void makeReservation(int num_persons, DateTime date_to, DateTime date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
+        ArrayList<Reservation> reservations = GetData.getStatsByCabin(koie_id);
         if (date_from.isBefore(currentDate) || date_to.isBefore(currentDate)) {
         	throw new KoieException("Can't reserve before current date");
         }
@@ -50,6 +52,8 @@ public class MakeData {
         if (GetData.getCabinById(koie_id).getSize() < 1) {
         	throw new KoieException("You must reserve for at least 1 person");
         }
+        
+        
         Matcher mat = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE).matcher(email);
         if(!mat.find()){
             System.out.println("Email '" + email + "' is not valid.");
