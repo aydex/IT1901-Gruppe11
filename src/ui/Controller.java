@@ -139,7 +139,8 @@ public class Controller {
                     final TextField addDateTo = new TextField();
                     addDateTo.setMaxWidth(90);
                     addDateTo.setPromptText("To Date");
-                    final TextField addEmail = new TextField();
+                    TextField mailExtra = (TextField) Main.getRoot().lookup("#email_extra");
+                    final TextField addEmail = new TextField(mailExtra.getText());
                     addEmail.setMaxWidth(200);
                     addEmail.setPromptText("Email");
                     final Button addButton = new Button("Add");

@@ -4,6 +4,10 @@
 <VBox prefHeight="572.0" prefWidth="912.0" fx:controller="ui.Controller"
       xmlns:fx="http://javafx.com/fxml">
     <children>
+        <SplitPane >
+            <Label text="Email: "/>
+            <TextField fx:id="email_extra"/>
+        </SplitPane>
         <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
             <items>
                 <AnchorPane id="box1" maxWidth="200.0" minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="200.0">
