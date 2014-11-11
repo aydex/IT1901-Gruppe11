@@ -20,6 +20,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class contains static variables and methods used for event handling
+ * and initializing the program from the database.
+ *
+ * @author Sondre Hjetland
+ * @author Sondre Slåttedal Havellen
+ * @author Nikolai Hegelstad
+ * @author Adrian Hundseth
+ */
 public class Controller {
 
     static ArrayList<Cabin> cabinList = GetData.getCabins();
@@ -27,6 +36,12 @@ public class Controller {
     static ArrayList<Report> reports = GetData.getReports();
     private SendMail sm = new SendMail();
 
+    /**
+     * Fills the ListView <i>#hytteListe</i> with the content of the supplied
+     * static ArrayList<Cabin> <code>cabinList</code>. MapMarkers are then
+     * added to the map, and all of the cabins in #hytteListe are assigned
+     * onclick events.
+     */
     public void deployCabins() {
 
         final ListView t = (ListView) Main.getRoot().lookup("#hytteListe");
@@ -34,7 +49,6 @@ public class Controller {
         final int[] selected_report_id = new int[1];
         ObservableList<Cabin> items = FXCollections.observableArrayList();
 
-        //Legger alle "Cabins" inn i ListView
         for (Cabin v : cabinList) {
             items.add(v);
             WebMap.addMarker(v.getCoords(), v.getName());
@@ -44,6 +58,16 @@ public class Controller {
         //Legger til funksjon til elementene i listen, som kjøres når de klikkes på.
         t.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
+            /**
+             * Handles the onclick event of a cabin.
+             * Removes everything inside the AnchorPane <i>#info</i>, and replace
+             * the previous content with new JavaFX Elements(table, ListView, buttons, input-fields).
+             * The new elements are then filled with the content of the supplied static
+             * ArrayList<Reservation>, ArrayList<Report> <code>reservations, reports</code>.
+             *
+             * @param event Mouse event
+             * @throws db.KoieException
+             */
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
                     final AnchorPane v = (AnchorPane) Main.getRoot().lookup("#info");
@@ -119,8 +143,17 @@ public class Controller {
                     //ChangeListener som finner reservation_id på reservasjonen du klikker på i tabellen.
                     table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
                         @Override
+                        /**
+                         * Changes the value of the final int[1] <code>selected_reservation_id</code>
+                         * to the reservation_id of the selected {@link db.Reservation}
+                         * in the TableView<Reservation> <code>table</code>.
+                         *
+                         * @param observableValue {@link javafx.beans.value.ChangeListener}
+                         * @param oldValue        {@link javafx.beans.value.ChangeListener}
+                         * @param newValue        {@link javafx.beans.value.ChangeListener}
+                         *
+                         */
                         public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
-                            //Check whether item is selected and set value of selected item to Label
                             if (table.getSelectionModel().getSelectedItem() != null) {
                                 selected_reservation_id[0] = table.getSelectionModel().getSelectedItem().getReservation_id();
                                 System.out.println(selected_reservation_id[0]);
@@ -148,8 +181,12 @@ public class Controller {
 
 
                     final Button backButton = new Button("<--");
+
                     backButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
+                        /**
+                         * @throws java.io.IOException
+                         */
                         public void handle(ActionEvent event) {
                             AnchorPane p = (AnchorPane) Main.getRoot().lookup("#info");
                             try {
@@ -163,6 +200,14 @@ public class Controller {
                     //Sletter reservasjonen som er selected
                     delReservation.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
+                        /**
+                         * Deletes a {@link db.Reservation} from the database utilizing the method
+                         * {@link db.DelData#delReservation(int)} with the provided
+                         * final int[1] <code>selected_reservation_id</code>
+                         *
+                         * @param event {@link javafx.event.EventHandler}
+                         * @throws java.lang.Exception
+                         */
                         public void handle(ActionEvent event) {
                             if (selected_reservation_id[0] != 0) {
                                 try {
@@ -185,6 +230,16 @@ public class Controller {
                     //Legger til ny reservasjon
                     addButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
+                        /**
+                         * Adds a {@link db.Reservation} to the database by
+                         * utilizing {@link db.MakeData#makeReservation(int, org.joda.time.DateTime, org.joda.time.DateTime, String, int)}
+                         * with arguments provided by final TextFields <code>addNumPersons, addDateTo, addDateFrom, addEmail</code>.
+                         * An Email is sent to the provided Email address using {@link db.SendMail#createAndSendMail(String)}.
+                         *
+                         * @param e {@link javafx.event.EventHandler}
+                         * @throws java.lang.Exception
+                         * @throws db.KoieException
+                         */
                         public void handle(ActionEvent e) {
 
                             DateTime parsedt = null;
@@ -196,8 +251,8 @@ public class Controller {
                                 String datef = addDateFrom.getText();
                                 parsedt = new DateTime(format.parse(datet));
                                 parsedf = new DateTime(format.parse(datef));
-                            } catch (Exception ø) {
-                                ø.printStackTrace();
+                            } catch (Exception n) {
+                                n.printStackTrace();
                             }
                             try {
                                 MakeData.makeReservation(Integer.parseInt(addNumPersons.getText()), parsedt, parsedf, addEmail.getText(), cabin.getId());
@@ -231,6 +286,14 @@ public class Controller {
                     //Legger til en ny rapport
                     addReport_button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
+                        /**
+                         * Adds a {@link db.Report} to the database by
+                         * utilizing {@link db.MakeData#makeReport(String, int)}
+                         * with arguments provided by final TextField <code>addReport</code>.
+                         *
+                         * @throws db.KoieException
+                         * @param e {@link javafx.event.EventHandler}
+                         */
                         public void handle(ActionEvent e) {
                             obsReports.add(new Report(
                                     addReport.getText(),
@@ -247,6 +310,14 @@ public class Controller {
                     //Fjerner rapporten som er markert
                     delReport_button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
+                        /**
+                         * Deletes a {@link db.Report} from the database utilizing the method
+                         * {@link db.DelData#delReport(int)} with the provided
+                         * final int[1] <code>selected_report_id</code>
+
+                         * @param e {@link javafx.event.EventHandler}
+                         * @throws java.lang.Exception
+                         */
                         public void handle(ActionEvent event) {
                             if (selected_report_id[0] != 0) {
                                 try {
@@ -269,6 +340,16 @@ public class Controller {
                     //ChangeListener som holder styr på hvilken rapport som er markert
                     reports_lw.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
                         @Override
+                        /**
+                         * Changes the value of the final int[1] <code>selected_report_id</code>
+                         * to the report_id of the selected {@link db.Reservation}
+                         * in the ListView<Report> <code>report_lw</code>.
+                         *
+                         * @param observableValue {@link javafx.beans.value.ChangeListener}
+                         * @param oldValue        {@link javafx.beans.value.ChangeListener}
+                         * @param newValue        {@link javafx.beans.value.ChangeListener}
+                         *
+                         */
                         public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
                             selected_report_id[0] = ((Report) reports_lw.getSelectionModel().getSelectedItem()).getReport_id();
                         }
