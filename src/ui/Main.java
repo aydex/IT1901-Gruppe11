@@ -29,8 +29,4 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void onClick2(){
-        WebMap.onClick2();
-    }
-
 }
