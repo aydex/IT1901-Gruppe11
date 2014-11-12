@@ -142,7 +142,6 @@ public class GetData {
                 System.out.println("The SQL Query is: " + strSelect);
                 ResultSet rset = stmt.executeQuery(strSelect);
 
-                System.out.println("The reservations are: ");
                 while (rset.next()) {
                     int people = rset.getInt("num_persons");
                     DateTime date_to = new DateTime(rset.getDate("date_to"));
@@ -150,21 +149,6 @@ public class GetData {
                     String email = rset.getString("email");
                     int reservation_id = rset.getInt("reservation_id");
                     int koie_id = rset.getInt("koie_id");
-
-                    for (int i = 0; i < 20; i++) {
-                        System.out.print("-");
-                    }
-                    System.out.println();
-                    System.out.println("Reservasjon nummer " + reservation_id);
-                    System.out.println("Hytte nummer " + koie_id);
-                    System.out.println("Antall personer: " + people);
-                    System.out.println("Fra: " + date_to);
-                    System.out.println("Til: " + date_from);
-                    System.out.println("E-post: " + email);
-                    //int size = rset.getInt("size");
-                    //int id = rset.getInt("koie_id");
-                    //Cabin cabin = new Cabin(name, size, id);
-                    //cabins.add(cabin);
                     Reservation reservation = new Reservation(people, date_to, date_from, email, reservation_id, koie_id);
                     reservations.add(reservation);
                 }
@@ -204,6 +188,31 @@ public class GetData {
     		}
     	}
     	return reservations;
+    }
+    
+    public static ArrayList<LostItem> getLostItems() {
+        Connection con = DBConnect.getConnection();
+        ArrayList<LostItem> lostitems = new ArrayList<LostItem>();
+        try {
+            if (con != null) {
+                Statement stmt = con.createStatement();
+                String strSelect = "select * from lost_items";
+                System.out.println("The SQL Query is: " + strSelect);
+                ResultSet rset = stmt.executeQuery(strSelect);
+
+                while (rset.next()) {
+                    String item = rset.getString("item");
+                    int lost_id= rset.getInt("lost_id");
+                    int koie_id = rset.getInt("koie_id");
+                    LostItem reservation = new LostItem(item, lost_id, koie_id);
+                    lostitems.add(reservation);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+        return lostitems;
     }
 }
 

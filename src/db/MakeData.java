@@ -38,7 +38,8 @@ public class MakeData {
     public static void makeReservation(int num_persons, DateTime date_to, DateTime date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
-        ArrayList<Reservation> reservations = GetData.getStatsByCabin(koie_id);
+        @SuppressWarnings("unused")
+		ArrayList<Reservation> reservations = GetData.getStatsByCabin(koie_id); // Used by Controller.java
         if (date_from.isBefore(currentDate) || date_to.isBefore(currentDate)) {
         	throw new KoieException("Can't reserve before current date");
         }
