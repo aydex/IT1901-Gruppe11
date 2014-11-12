@@ -1,24 +1,10 @@
 package ui;
 
-import db.Cabin;
-import db.DBConnect;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
-
-import java.util.ArrayList;
 
 public class Main extends Application {
     static Pane root;
@@ -41,10 +27,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static void onClick2(){
-        WebMap.onClick2();
     }
 
 }
