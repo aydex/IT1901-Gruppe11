@@ -26,7 +26,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         main = this;
-        root = FXMLLoader.load(getClass().getResource("layout.fxml"));
+        root = FXMLLoader.load(Main.class.getResource("/ui/layout.fxml"));
         primaryStage.setTitle("Koie");
         primaryStage.setScene(new Scene(root, 1000, 815));
         primaryStage.setResizable(false);

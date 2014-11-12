@@ -25,10 +25,6 @@
                                                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane id="statistics" minHeight="205">
-                                    <children>
-                                    </children>
-                                </AnchorPane>
                             </items>
                         </SplitPane>
                     </children>
