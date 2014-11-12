@@ -5,7 +5,7 @@ public class LostItem {
 	private final int koie_id;
 	private final int lost_id;
 	
-	LostItem(String itemName, int koie_id, int lost_id) {
+	public LostItem(String itemName, int koie_id, int lost_id) {
 		this.itemName = itemName;
 		this.koie_id = koie_id;
 		this.lost_id = lost_id;
@@ -25,8 +25,7 @@ public class LostItem {
 
 	@Override
 	public String toString() {
-		return "LostItem [itemName=" + itemName + ", koie_id=" + koie_id
-				+ ", lost_id=" + lost_id + "]";
+		return "Gjenstand: " + itemName + ", id: " + lost_id;
 	}
 
 }
