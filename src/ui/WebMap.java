@@ -1,7 +1,10 @@
 package ui;
 
-import javafx.animation.Timeline;
-import javafx.application.Application;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -9,18 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import netscape.javascript.JSException;
 import netscape.javascript.JSObject;
-
-import javax.swing.event.DocumentEvent;
-import java.net.URL;
-import java.util.*;
 
 public class WebMap implements Initializable {
 
