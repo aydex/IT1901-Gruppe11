@@ -1,7 +1,6 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +37,8 @@ public class MakeData {
     public static void makeReservation(int num_persons, DateTime date_to, DateTime date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
-        ArrayList<Reservation> reservations = GetData.getStatsByCabin(koie_id);
+        @SuppressWarnings("unused")
+		ArrayList<Reservation> reservations = GetData.getStatsByCabin(koie_id); // Used by Controller.java
         if (date_from.isBefore(currentDate) || date_to.isBefore(currentDate)) {
         	throw new KoieException("Can't reserve before current date");
         }
@@ -73,11 +73,7 @@ public class MakeData {
             preparedStmt.setDate(3, new java.sql.Date(date_from.getMillis()));
             preparedStmt.setString(4, email);
             preparedStmt.setInt(5, koie_id);
-            System.out.print(preparedStmt.toString());
             preparedStmt.execute();
-
-            //stmnt.executeUpdate("INSERT INTO reservation " + "VALUES (" + num_persons + ", " + date_to +
-            //", " + date_from + ", " + email + ", " + reservation_id + ", " + koie_id + ")");
         } catch (SQLException e) {
             System.err.println("SQLException: " + e.getMessage());
         }
