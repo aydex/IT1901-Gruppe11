@@ -17,6 +17,12 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * This class contains the controller for the WebView that displays the Google Maps page.
+ *
+ * @author Sondre Slåttedal Havellen
+ */
+
 public class WebMap implements Initializable {
 
     @FXML
@@ -26,6 +32,13 @@ public class WebMap implements Initializable {
     private static final WebEngine webEngine = webView.getEngine();
     private static Map<String, LatLong> markers = new HashMap<String, LatLong>();
 
+
+    /**
+     * Initializes the WebMap and loads JavaScript into an webengine in order for JavaFX
+     * to communicate with the webview.
+     * @param id the unique ID of the reservation
+     * @return A <code>Reservation</code> object corresponding to the <code>id</code>
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // create web engine and view
@@ -58,12 +71,18 @@ public class WebMap implements Initializable {
 
         // create markers
 
-        webView.setPrefWidth(600);
-        webView.setPrefHeight(400);
+        webView.setPrefWidth(790);
+        webView.setPrefHeight(786);
         maps.getChildren().add(webView);
 
     }
 
+    /**
+     * This function lets other instances add markers to the map before the html-page
+     * is loaded. This is
+     * @param latLong
+     * @param name
+     */
     public static void addMarker(LatLong latLong, String name) {
         markers.put(name, latLong);
     }

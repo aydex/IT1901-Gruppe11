@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import db.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,15 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import org.joda.time.DateTime;
-
-import db.Cabin;
-import db.DelData;
-import db.GetData;
-import db.KoieException;
-import db.MakeData;
-import db.Report;
-import db.Reservation;
-import db.SendMail;
 
 /**
  * This class contains static variables and methods used for event handling
@@ -401,7 +393,6 @@ public class Controller {
                     addReport.setPrefHeight(80);
                     addReport_button.setPrefWidth(250);
                     delReport_button.setPrefWidth(250);
-
 
                     //Legger til alle elementene i content.
                     content.getChildren().addAll(main_header, res_header, def_header, table, backButton, addButton,
