@@ -83,7 +83,7 @@ public class MakeData {
     	Connection con = DBConnect.getConnection();
     	
     	String query = "INSERT INTO lost_items ("
-    			+ " item_name,"
+    			+ " item,"
     			+ " koie_id ) VALUES ("
     			+ "?, ?)";
     	try {

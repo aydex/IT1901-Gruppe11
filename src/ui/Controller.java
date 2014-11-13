@@ -40,6 +40,7 @@ public class Controller {
     static ArrayList<Cabin> cabinList = GetData.getCabins();
     static ArrayList<Reservation> reservations = GetData.getReservations();
     static ArrayList<Report> reports = GetData.getReports();
+    static ArrayList<LostItem> lostItems  = GetData.getLostItems();
     private SendMail sm = new SendMail();
 
     /**
@@ -53,6 +54,7 @@ public class Controller {
         final ListView t = (ListView) Main.getRoot().lookup("#hytteListe");
         final int[] selected_reservation_id = new int[1];
         final int[] selected_report_id = new int[1];
+        final int[] selected_lostitem_id = new int[1];
         ObservableList<Cabin> items = FXCollections.observableArrayList();
 
         for (Cabin v : cabinList) {
@@ -89,6 +91,14 @@ public class Controller {
                         }
                     }
 
+                    //Finner alle mangler på hytta. Legger de til i ArrayListen deficiency
+                    ObservableList<LostItem> obsLostItems = FXCollections.observableArrayList();
+                    for (LostItem item : lostItems) {
+                        if (item.getKoie_id() == cabin.getId()) {
+                            obsLostItems.add(item);
+                        }
+                    }
+
                     //Lager en AnchorPane hvor alle elementene legges. AnchorPanenen blir dermed lagt til i rot-Panen.
                     AnchorPane content = new AnchorPane();
                     content.setPrefHeight(900);
@@ -98,11 +108,11 @@ public class Controller {
                     //Headers
                     Label res_header = new Label("Reservasjoner");
                     Label def_header = new Label("Rapporter");
+                    Label lost_header = new Label("Gjenglemte Ting");
                     Label main_header = new Label(cabin.getName());
                     Label exceptionOutPut = new Label("");
 
                     //Reports
-
                     ListView reports_lw = new ListView();
                     reports_lw.setItems(obsReports);
                     TextArea addReport = new TextArea();
@@ -110,6 +120,13 @@ public class Controller {
                     Button addReport_button = new Button("Add Report");
                     Button delReport_button = new Button("Delete Report");
 
+                    //Lost Items
+                    ListView lostItems_lw = new ListView();
+                    lostItems_lw.setItems(obsLostItems);
+                    TextArea addLostItem = new TextArea();
+                    addLostItem.setPromptText("New Lost Item..");
+                    Button addLostItem_button = new Button("Add Lost Item");
+                    Button delLostItem_button = new Button("Del Lost Item");
 
                     //Table
                     TableView<Reservation> table = new TableView<Reservation>();
@@ -272,6 +289,70 @@ public class Controller {
                         }
                     });
 
+                    //Legger til en ny Lost Item
+                    addLostItem_button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        /*
+                         * Adds a db.Report to the database by
+                         * utilizing db.MakeData#makeReport(String, int)
+                         * with arguments provided by final TextField addReport.
+                         */
+                        public void handle(ActionEvent e) {
+                            obsLostItems.add(new LostItem(
+                                    addLostItem.getText(),
+                                    cabin.getId(),
+                                    0));
+                            try {
+                                MakeData.makeLostItem(addLostItem.getText(), cabin.getId());
+                                lostItems = GetData.getLostItems();
+                            } catch (Exception e2) {
+                                e2.printStackTrace();
+                            }
+                        }
+                    });
+                    //Fjerner rapporten som er markert
+                    delLostItem_button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        /*
+                         * Deletes a db.Report from the database utilizing the method
+                         * db.DelData#delReport(int) with the provided
+                         * final int[1] selected_report_id
+                         */
+                        public void handle(ActionEvent event) {
+                            if (selected_lostitem_id[0] != 0) {
+                                try {
+                                    int temp_lostitem_id = -1;
+                                    for (LostItem r : lostItems) {
+                                        if (r.getLost_id() == selected_lostitem_id[0]) {
+                                            temp_lostitem_id = selected_lostitem_id[0];
+                                            obsLostItems.remove(r);
+                                            break;
+                                        }
+                                    }
+                                    DelData.delLostItem(temp_lostitem_id);
+                                    lostItems = GetData.getLostItems();
+                                } catch (Exception v) {
+                                    v.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    //ChangeListener som holder styr på hvilken rapport som er markert
+                    lostItems_lw.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+                        @Override
+                        /*
+                         * Changes the value of the final int[1] selected_report_id
+                         * to the report_id of the selected db.Reservation
+                         * in the ListView<Report> report_lw.
+                         */
+                        public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                            if (lostItems_lw.getItems().size() > 0) {
+                                selected_lostitem_id[0] = ((LostItem) lostItems_lw.getSelectionModel().getSelectedItem()).getLost_id();
+                            } else {
+                                selected_lostitem_id[0] = 0;
+                            }
+                        }
+                    });
 
                     //Legger til en ny rapport
                     addReport_button.setOnAction(new EventHandler<ActionEvent>() {
@@ -334,11 +415,14 @@ public class Controller {
                         }
                     });
 
+
+
                     //Styles skal etterhvert legges i en egen .css-fil
                     content.setStyle("-fx-background-color: #FFF; -fx-font-size: 12px");
                     main_header.setStyle("-fx-font-size: 40px; -fx-text-alignment: center");
                     res_header.setStyle("-fx-font-size: 30px");
                     def_header.setStyle("-fx-font-size: 30px");
+                    lost_header.setStyle("-fx-font-size: 30px");
                     exceptionOutPut.setStyle("-fx-text-fill: red");
 
                     //Positions
@@ -377,6 +461,34 @@ public class Controller {
                     delReport_button.setLayoutX(500);
                     delReport_button.setLayoutY(inputY + 30);
 
+                    //reports_pane
+                    reports_lw.setPrefHeight(275);
+                    reports_lw.setPrefWidth(250);
+                    addReport.setPrefWidth(250);
+                    addReport.setPrefHeight(80);
+                    addReport_button.setPrefWidth(250);
+                    delReport_button.setPrefWidth(250);
+
+                    //Lost Items
+                    lost_header.setLayoutY(550);
+                    lost_header.setLayoutX(0);
+                    lostItems_lw.setLayoutY(600);
+                    lostItems_lw.setLayoutX(0);
+                    addLostItem.setLayoutY(755);
+                    addLostItem.setLayoutX(0);
+                    addLostItem_button.setLayoutX(410);
+                    addLostItem_button.setLayoutY(760);
+                    delLostItem_button.setLayoutX(410);
+                    delLostItem_button.setLayoutY(730);
+
+                    //Lost Items Pane
+                    lostItems_lw.setPrefHeight(150);
+                    lostItems_lw.setPrefWidth(400);
+                    addLostItem.setPrefWidth(400);
+                    addReport_button.setPrefWidth(250);
+                    addLostItem.setPrefHeight(10);
+                    delReport_button.setPrefWidth(250);
+
                     //Size
                     main_header.setPrefWidth(500);
                     backButton.setPrefWidth(40);
@@ -386,18 +498,12 @@ public class Controller {
                     int tableWidth = 450;
                     table.setPrefWidth(tableWidth);
                     table.setPrefHeight(360);
-                    //reports_pane
-                    reports_lw.setPrefHeight(275);
-                    reports_lw.setPrefWidth(250);
-                    addReport.setPrefWidth(250);
-                    addReport.setPrefHeight(80);
-                    addReport_button.setPrefWidth(250);
-                    delReport_button.setPrefWidth(250);
 
                     //Legger til alle elementene i content.
                     content.getChildren().addAll(main_header, res_header, def_header, table, backButton, addButton,
                             addDateFrom, addDateTo, addEmail, addNumPersons, addReport, addReport_button, delReport_button,
-                            exceptionOutPut, delReservation, reports_lw);
+                            exceptionOutPut, delReservation, reports_lw, addLostItem, addLostItem_button, delLostItem_button,
+                            lostItems_lw, lost_header);
                     if (v.getChildren().size() > 0)
                         v.getChildren().remove(0);
                     v.getChildren().add(content);

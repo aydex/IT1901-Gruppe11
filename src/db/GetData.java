@@ -204,7 +204,7 @@ public class GetData {
                     String item = rset.getString("item");
                     int lost_id= rset.getInt("lost_id");
                     int koie_id = rset.getInt("koie_id");
-                    LostItem reservation = new LostItem(item, lost_id, koie_id);
+                    LostItem reservation = new LostItem(item, koie_id, lost_id);
                     lostitems.add(reservation);
                 }
             }
