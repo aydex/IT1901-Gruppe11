@@ -61,7 +61,7 @@ public class GetData {
 	 * it finds a <code>Cabin</code> with a matching id.
 	 * </p>
 	 * @param id
-	 * @see getCabins
+	 * @see GetData.getCabins
 	 * @return A <code>Cabin</code> object.
 	 */
 	public static Cabin getCabinById(int id) {
@@ -133,7 +133,7 @@ public class GetData {
      * that have a starting date no earlier than six months prior to the current date.
      * </p>
      * @return An <code>ArrayList</code> with <code>Reservation</code> objects
-     * @see getReservations
+     * @see GetData.getReservations
      */
     public static ArrayList<Reservation> getStats() {
         ArrayList<Reservation> stats = new ArrayList<Reservation>();

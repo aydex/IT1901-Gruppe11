@@ -50,6 +50,7 @@ public class DBConnect {
     		System.err.println("ParserConfigurationException: " + g.getMessage());
     	}
     	
+    	System.out.println(config);
     	if (config != null) {
     		userid = config.userid;
     		password = config.password;
