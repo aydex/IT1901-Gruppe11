@@ -36,8 +36,6 @@ public class WebMap implements Initializable {
     /**
      * Initializes the WebMap and loads JavaScript into an webengine in order for JavaFX
      * to communicate with the webview.
-     * @param id the unique ID of the reservation
-     * @return A <code>Reservation</code> object corresponding to the <code>id</code>
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,19 +77,37 @@ public class WebMap implements Initializable {
 
     /**
      * This function lets other instances add markers to the map before the html-page
-     * is loaded. This is
-     * @param latLong
-     * @param name
+     * is loaded. This is done by filling a HashMap, <i>#markers</i> with locations, <code>latLong</code>,
+     * and names, <code>name</code> which the eventlistener "changed" uses when the document is finished
+     * loading.
+     * @param latLong The location stored in a <code>LatLong</code>-object.
+     * @param name The name of the cabin.
      */
     public static void addMarker(LatLong latLong, String name) {
         markers.put(name, latLong);
     }
 
+    /**
+     * This class stores the latitude and longitude of a marker as a single object.
+     */
     public static class LatLong{
 
+
+        /**
+         * Stores the latitude.
+         */
         public float lat;
+
+        /**
+         * Stores the longitude.
+         */
         public float lon;
 
+        /**
+         * Initializes the LatLong-object.
+         * @param lat Input latitude.
+         * @param lon Input longitude.
+         */
         public LatLong(float lat, float lon) {
             this.lat = lat;
             this.lon = lon;
