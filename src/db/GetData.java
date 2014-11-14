@@ -12,7 +12,7 @@ import org.joda.time.Period;
 import ui.WebMap.LatLong;
 
 /**
- * This class contains static functions used to get information out of the database.
+ * This class contains static functions used to retrieve out of the database.
  * @author Adrian Hundseth
  * @see DBConnect
  *
@@ -54,6 +54,16 @@ public class GetData {
         return cabins;
     }
 	
+	/**
+	 * Retrieves the cabin matching the supplied <code>id</code>.
+	 * <p>
+	 * Uses the function <code>getCabins</code> and iterates through until
+	 * it finds a <code>Cabin</code> with a matching id.
+	 * </p>
+	 * @param id
+	 * @see GetData.getCabins
+	 * @return A <code>Cabin</code> object.
+	 */
 	public static Cabin getCabinById(int id) {
         ArrayList<Cabin> cabins = getCabins();
         for (Cabin cabin : cabins) {
@@ -115,7 +125,16 @@ public class GetData {
         }
         return reports;
     }
-
+    
+    /**
+     * Retrieves the reservations for the previous six months.
+     * <p>
+     * Using <code>getReservations</code> this function creates a new <code>ArrayList</code> with <code>Reservation</code> objects 
+     * that have a starting date no earlier than six months prior to the current date.
+     * </p>
+     * @return An <code>ArrayList</code> with <code>Reservation</code> objects
+     * @see GetData.getReservations
+     */
     public static ArrayList<Reservation> getStats() {
         ArrayList<Reservation> stats = new ArrayList<Reservation>();
         ArrayList<Reservation> reservations = getReservations();
@@ -131,7 +150,14 @@ public class GetData {
         }
         return stats;
     }
-
+    
+    /**
+     * Retrieves all the reservations currently on the database.
+	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
+	 * with all the reservations currently in the database. Returns empty if a connection cannot be made.
+	 * @return Returns an <code>ArrayList</code> with all the <code>Reservation</code> objects. 
+	 * If the connection cannot be made, it returns an empty <code>ArrayList</code>
+     */
     public static ArrayList<Reservation> getReservations() {
         Connection con = DBConnect.getConnection();
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -161,6 +187,15 @@ public class GetData {
         return reservations;
     }
     
+    /**
+     * Retrieves all reservations made at most six months ago.
+     * <p>
+     * Connects to and queries the database for reservations with the supplied id. 
+     * Any reservations newer than six months are added to the list and returned.
+     * </p>
+     * @param id - the id of the cabin in question
+     * @return An <code>ArrayList</code> of <code>Reservation</code> objects
+     */
     public static ArrayList<Reservation> getStatsByCabin(int id) {
     	Connection con = DBConnect.getConnection();
     	ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -190,6 +225,13 @@ public class GetData {
     	return reservations;
     }
     
+    /**
+     * Retrieves all the lost items currently on the database.
+	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
+	 * with all the lost items currently in the database. Returns empty if a connection cannot be made.
+	 * @return Returns an <code>ArrayList</code> with all the <code>LostItem</code> objects. 
+	 * If the connection cannot be made, it returns an empty <code>ArrayList</code>
+     */
     public static ArrayList<LostItem> getLostItems() {
         Connection con = DBConnect.getConnection();
         ArrayList<LostItem> lostitems = new ArrayList<LostItem>();
