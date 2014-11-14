@@ -415,8 +415,6 @@ public class Controller {
                         }
                     });
 
-
-
                     //Styles skal etterhvert legges i en egen .css-fil
                     content.setStyle("-fx-background-color: #FFF; -fx-font-size: 12px");
                     main_header.setStyle("-fx-font-size: 40px; -fx-text-alignment: center");
@@ -429,10 +427,11 @@ public class Controller {
                     res_header.setLayoutY(70);
                     def_header.setLayoutX(510);
                     def_header.setLayoutY(70);
-                    exceptionOutPut.setLayoutY(565);
+                    exceptionOutPut.setLayoutY(125);
                     exceptionOutPut.setLayoutX(125);
                     table.setLayoutY(150);
                     main_header.setLayoutX(75);
+
                     //Reservasjon
                     int inputY = 520;
                     int inputX = 30;
@@ -450,8 +449,8 @@ public class Controller {
                     delReservation.setLayoutY(115);
                     backButton.setLayoutX(10);
                     backButton.setLayoutY(10);
-                    //Reports
 
+                    //Reports
                     reports_lw.setLayoutY(150);
                     reports_lw.setLayoutX(500);
                     addReport.setLayoutY(430);
