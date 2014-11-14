@@ -254,8 +254,10 @@ public class Controller {
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                                 String datet = addDateTo.getText();
-                                System.out.println(datet);
+                                datet = datet.replace('.', '-');
                                 String datef = addDateFrom.getText();
+                                datef = datef.replace('.','-');
+                                System.out.println(datef);
                                 parsedt = new DateTime(format.parse(datet));
                                 parsedf = new DateTime(format.parse(datef));
                             } catch (Exception n) {
@@ -266,8 +268,8 @@ public class Controller {
                                 reservations = GetData.getReservations();
                                 obsReservations.add(new Reservation(
                                         Integer.parseInt(addNumPersons.getText()),
-                                        DateTime.parse(addDateTo.getText()),
-                                        DateTime.parse(addDateFrom.getText()),
+                                        DateTime.parse(addDateTo.getText().replace('.', '-')),
+                                        DateTime.parse(addDateFrom.getText().replace('.', '-')),
                                         addEmail.getText(),
                                         0,
                                         cabin.getId()
