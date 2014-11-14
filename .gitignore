@@ -19,7 +19,7 @@ hs_err_pid*D
 .project
 .DS_Store
 .settings
-
+/doc
 */.idea/
 *.iml
 out/
