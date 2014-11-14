@@ -369,12 +369,9 @@ public class Controller {
                                     addReport.getText(),
                                     cabin.getId(),
                                     0));
-                            try {
-                                MakeData.makeReport(addReport.getText(), cabin.getId());
-                                reports = GetData.getReports();
-                            } catch (KoieException e1) {
-                                e1.printStackTrace();
-                            }
+                            MakeData.makeReport(addReport.getText(), cabin.getId());
+                            reports = GetData.getReports();
+
                         }
                     });
                     //Fjerner rapporten som er markert
