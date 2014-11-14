@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurations>
-	<configuration name=default>
+	<configuration name="default">
 		<userid>sondrehj_it1901</userid>
 		<password>banan11</password>
 		<url>jdbc:mysql://mysql.stud.ntnu.no:3306/sondrehj_it1901</url>

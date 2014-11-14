@@ -25,10 +25,10 @@ public class DOMParser {
 
 	    //Load and Parse the XML document
 	    //document contains the complete XML as a Tree.
-	    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+	    
 	    Document document = 
 	      builder.parse(
-	        classLoader.getResourceAsStream("/xml/config.xml"));
+	        ("xml/config.xml"));
 	    
 	    List<Configuration> configList = new ArrayList<Configuration>();
 	    //Iterating through the nodes and extracting the data.
@@ -63,6 +63,7 @@ public class DOMParser {
 	                break;
 	              case "driver":
 	            	  config.driver = content;
+	            	break;
 	            }
 	          }
 	        }
