@@ -13,6 +13,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+/**
+ * Used for parsing the config.xml file, using the DOM parser implementation that comes with the JDK.
+ *
+ */
 public class DOMParser {
 
 	  public static Configuration loadConfig(String configName) throws SAXException, IOException, ParserConfigurationException {
@@ -25,7 +30,6 @@ public class DOMParser {
 
 	    //Load and Parse the XML document
 	    //document contains the complete XML as a Tree.
-	    
 	    Document document = 
 	      builder.parse(
 	        ("xml/config.xml"));
