@@ -12,7 +12,7 @@ import org.joda.time.Period;
 import ui.WebMap.LatLong;
 
 /**
- * This class contains static functions used to get information out of the database.
+ * This class contains static functions used to retrieve out of the database.
  * @author Adrian Hundseth
  * @see DBConnect
  *
@@ -225,6 +225,13 @@ public class GetData {
     	return reservations;
     }
     
+    /**
+     * Retrieves all the lost items currently on the database.
+	 * Establishes a connection with the database, then creates an <code>ArrayList</code> 
+	 * with all the lost items currently in the database. Returns empty if a connection cannot be made.
+	 * @return Returns an <code>ArrayList</code> with all the <code>LostItem</code> objects. 
+	 * If the connection cannot be made, it returns an empty <code>ArrayList</code>
+     */
     public static ArrayList<LostItem> getLostItems() {
         Connection con = DBConnect.getConnection();
         ArrayList<LostItem> lostitems = new ArrayList<LostItem>();

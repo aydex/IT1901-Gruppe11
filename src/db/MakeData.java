@@ -11,11 +11,20 @@ import org.joda.time.DateTime;
 /**
  * This class contains static functions used to input information to the database.
  * @author Adrian Hundseth
- *
+ * @see DBConnect
  */
 public class MakeData {
 	
-    public static void makeReport(String deficiency, int koie_id) throws KoieException {
+	/**
+	 * This function sends a report to the database.
+	 * <p>
+	 * Prints an error if the connection fails.
+	 * </p>
+	 * @param deficiency
+	 * @param koie_id
+	 * @see Report
+	 */
+    public static void makeReport(String deficiency, int koie_id) {
         Connection con = DBConnect.getConnection();
         if (con != null) {
 
@@ -33,7 +42,22 @@ public class MakeData {
             }
         }
     }
-
+    
+    /**
+     * This function sends a reservation to the database using the supplied parameters.
+     * <p>
+     * All control of whether a reservation is legal and can be made is in this function. 
+     * Throws exceptions if dates are wrong, too many or too few people are attempted. Also uses 
+     * regex to make sure the email is valid.
+     * </p>
+     * @param num_persons
+     * @param date_to
+     * @param date_from
+     * @param email
+     * @param koie_id
+     * @throws KoieException Throws exceptions if the reservations trying to be made are not allowed to make.
+     * @see Reservation
+     */
     public static void makeReservation(int num_persons, DateTime date_to, DateTime date_from, String email, int koie_id) throws KoieException {
         Connection con = DBConnect.getConnection();
         DateTime currentDate = new DateTime();
@@ -79,6 +103,15 @@ public class MakeData {
         }
     }
     
+    /**
+     * This function sends a lost item to the database.
+	 * <p>
+	 * Prints an error if the connection fails.
+	 * </p>
+     * @param item_name
+     * @param koie_id
+     * @see LostItem
+     */
     public static void makeLostItem(String item_name, int koie_id) {
     	Connection con = DBConnect.getConnection();
     	
