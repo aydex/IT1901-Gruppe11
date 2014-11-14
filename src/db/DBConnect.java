@@ -25,11 +25,7 @@ public class DBConnect {
 	 * Throws an exception if it fails.
 	 */
     private static Connection con = null;
-    
-    public static void main(String[] args) {
-    	con = getConnection();
-    }
-    
+
     /**
 	 * Connects to the database with the supplied static strings <code>url, userid and password</code>
 	 * <p>
@@ -50,7 +46,6 @@ public class DBConnect {
     		System.err.println("ParserConfigurationException: " + g.getMessage());
     	}
     	
-    	System.out.println(config);
     	if (config != null) {
     		userid = config.userid;
     		password = config.password;

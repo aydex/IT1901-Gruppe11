@@ -79,8 +79,8 @@ public class DOMParser {
 	    //Printing the Configuration list populated.
 	    for (Configuration config : configList) {
 	      System.out.println(config);
-	      if (config.name == configName) {
-	    	  	return config;	  
+	      if (config.name.equals(configName)) {
+	    	  	return config;
 	      }
 	    }
 	    return null;
